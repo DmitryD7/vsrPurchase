@@ -36,6 +36,21 @@ export const authAPI = {
     },
 };
 
+export const vsrApi = {
+    getSeats() {
+        return instance.post('vsr/get-seat');
+    },
+    setSeat(data: SetSeatParamsType) {
+        return instance.post('vsr/set-seat', data);
+    },
+    sendEmailToSeat(data: SendEmailToSeatParamsType) {
+        return instance.post('vsr/email-seat', data);
+    },
+    sendEmailToAllSeats() {
+        return instance.post('vsr/email-all-seats');
+    },
+}
+
 export type LoginParamsType = {
     email: string,
     password: string,
@@ -51,4 +66,13 @@ export type RequestResetPasswordType = {
 export type ResetPasswordDataType = {
     code: string,
     password: string,
+}
+
+export type SetSeatParamsType = {
+    iSeatNumber: number, // index of seat
+    sEmail: string,
+}
+
+export type SendEmailToSeatParamsType = {
+    iSeatNumber: number
 }
