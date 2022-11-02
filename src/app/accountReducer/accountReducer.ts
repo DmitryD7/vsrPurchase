@@ -104,7 +104,12 @@ export const accountSlice = createSlice({
     },
 });
 
-export const accountAsync = {debug};
+export const accountAsync = {
+    debug,
+    fetchSeats,
+    sendEmailToSeat,
+    sendEmailToAllSeats,
+};
 
 export interface iUser {
     email: string,
