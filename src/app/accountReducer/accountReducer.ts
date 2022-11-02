@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authAPI} from "../../api/api";
-import {handleAsyncServerAppError, handleAsyncServerNetworkError} from "../../utils/errorUtils";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {authAPI, vsrAPI, SetSeatParamsType, UsersSeatType, SendEmailToSeatParamsType} from "../../api/api";
+import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
 
 const {setAppStatus} = appCommonActions;
@@ -18,30 +18,96 @@ const debug = createAsyncThunk('auth/debug', async (param, thunkAPI) => {
     } catch (error: unknown | any) {
         return handleAsyncServerNetworkError(error, thunkAPI);
     }
-})
+});
+
+const fetchSeats = createAsyncThunk('account/fetchSeats', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await vsrAPI.getSeats();
+        if (res.data.iMaxSeats) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
+
+const setSeat = createAsyncThunk<undefined, SetSeatParamsType, ThunkError>('account/setSeat', async (params, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await vsrAPI.setSeat(params);
+        if (res.data.ok === true) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data.sURL;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
+
+const sendEmailToSeat = createAsyncThunk<undefined, SendEmailToSeatParamsType, ThunkError>('account/sendEmailToSeat', async (params, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await vsrAPI.sendEmailToSeat(params);
+        if (res.data.ok === true) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data.ok;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
+
+const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('account/sendEmailToSeat', async (params, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await vsrAPI.sendEmailToAllSeats();
+        if (res.data.ok === true) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data.ok;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
 
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
-        currentPlan: 'Basic' as CurrentPlanType,
-        isEnterprisePending: false,
+        numberOfSeats: 0,
+        seats: [] as Array<UsersSeatType>
     },
-    reducers: {
-        setCurrentPlan: (state, action: PayloadAction<{ currentPlan: CurrentPlanType }>) => {
-            state.currentPlan = action.payload.currentPlan;
-        },
-        setIsEnterprisePending: (state, action: PayloadAction<{ isEnterprisePending: boolean }>) => {
-            state.isEnterprisePending = action.payload.isEnterprisePending;
-        },
-    },
+    reducers: {},
     extraReducers: builder => {
         builder.addCase(debug.fulfilled, (state, action) => {
             state.email = action.payload;
+        });
+        builder.addCase(fetchSeats.fulfilled, (state, action) => {
+            state.numberOfSeats = action.payload.iMaxSeats;
+            state.seats = action.payload.vSeats;
+        });
+        builder.addCase(setSeat.fulfilled, (state, action) => {
+            const index = action.meta.arg.iSeatNumber
+            // @ts-ignore
+            state.seats[index].url = action.payload;
         });
     },
 });
 
 export const accountAsync = {debug};
 
-export type CurrentPlanType = 'Entry' | 'Basic' | 'Enterprise' | '';
+export interface iUser {
+    email: string,
+    numberOfSeats: number,
+    seats: []
+}

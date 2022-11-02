@@ -1,21 +1,15 @@
+import {iUser} from "./accountReducer";
 import {accountActions, accountReducer} from "./index";
-import {CurrentPlanType} from "./accountReducer";
 
-const {debug, setCurrentPlan} = accountActions;
+const {debug} = accountActions;
 
-export type InitialStateType = {
-    email: string,
-    currentPlan: CurrentPlanType,
-    isEnterprisePending: boolean,
-}
-
-let startState: InitialStateType;
+let startState: iUser;
 
 beforeEach(() => {
     startState = {
         email: 'dd@gmail.com',
-        currentPlan: 'Basic',
-        isEnterprisePending: false
+        numberOfSeats: 5,
+        seats: []
     }
 });
 
@@ -24,11 +18,4 @@ test('correct email should be set', () => {
 
     const endState = accountReducer(startState, action);
     expect(endState.email).toBe('dd@gmail.com');
-});
-
-test('correct plan should be set', () => {
-    const action = setCurrentPlan({currentPlan: 'Entry'})
-
-    const endState = accountReducer(startState, action);
-    expect(endState.currentPlan).toBe('Entry');
 });

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './AccountPage.module.css';
 import {useAppDispatch} from "../../utils/utils";
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
@@ -15,17 +15,14 @@ function AccountPage() {
 
     let seatsNumber = 1;
 
-    const navigate = useNavigate();
-
-    const {selectAccEmail, selectIsEnterprisePending} = accSelectors;
+    const {selectAccEmail} = accSelectors;
     const accEmail = useSelector(selectAccEmail);
-    const isEnterprisePending = useSelector(selectIsEnterprisePending)
 
     const {debug} = accountActions;
 
     useEffect(() => {
         dispatch(debug());
-    }, []);
+    }, [dispatch, debug]);
 
     const onLogoutHandler = async () => {
         const res = await dispatch(authActions.logout());
@@ -40,9 +37,6 @@ function AccountPage() {
     }
     if (status === "loading") {
         return <Loader/>
-    }
-    if (isEnterprisePending) {
-        return <Navigate to={'/enterprisePending'}/>
     }
 
     return (
@@ -70,22 +64,6 @@ function AccountPage() {
 }
 
 export default AccountPage;
-
-const ButtonMailto = () => {
-    return (
-        <button className={`${s.Btn} ${s.Btn_WithLink}`}>
-            <Link
-                to='#'
-                onClick={(e) => {
-                    window.location.href = "mailto:info@stylescan.com";
-                    e.preventDefault();
-                }}
-            >
-                Contact Us
-            </Link>
-        </button>
-    );
-};
 
 const FirstTimeAppearanceComponent = () => {
     const [seatEmail, setSeatEmail] = useState('');

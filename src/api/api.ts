@@ -36,12 +36,12 @@ export const authAPI = {
     },
 };
 
-export const vsrApi = {
+export const vsrAPI = {
     getSeats() {
-        return instance.post('vsr/get-seat');
+        return instance.post<GetSeatsResponseType>('vsr/get-seat');
     },
     setSeat(data: SetSeatParamsType) {
-        return instance.post('vsr/set-seat', data);
+        return instance.post<SetSeatResponseType>('vsr/set-seat', data);
     },
     sendEmailToSeat(data: SendEmailToSeatParamsType) {
         return instance.post('vsr/email-seat', data);
@@ -75,4 +75,19 @@ export type SetSeatParamsType = {
 
 export type SendEmailToSeatParamsType = {
     iSeatNumber: number
+}
+
+export type UsersSeatType = {
+    email: string,
+    url: string
+}
+
+export type GetSeatsResponseType = {
+    iMaxSeats: number, // non-negative integer
+    vSeats: Array<UsersSeatType>
+}
+
+export type SetSeatResponseType = {
+    ok: boolean,
+    sURL: string
 }
