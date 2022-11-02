@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import s from './App.module.css';
+import {useAppDispatch} from "./utils/utils";
+import {appActions} from "./app/appReducer";
+import Header from "./components/Header/Header";
+import {Route, Routes} from 'react-router-dom';
+import SuccessPage from "./pages/SuccessPage/SuccessPage";
+import CancellationPage from "./pages/CancellationPage/CancellationPage";
+import LoginPage from './pages/LoginPage/LoginPage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import VerifyingEmailPage from "./pages/VerifyingEmailPage/VerifyingEmailPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
+import VSRPurchasePage from "./pages/VSRPurchasePage/VSRPurchasePage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useAppDispatch();
+    const {initializeApp} = appActions;
+
+    useEffect(() => {
+        dispatch(initializeApp());
+    }, [dispatch, initializeApp]);
+
+    // if (status === "loading") {
+    //     return <Loader/>
+    // }
+
+    const StartPage = () => <AccountPage/>
+
+    return (
+        <div className={s.Container}>
+            <div className={s.App}>
+                <Header/>
+                <Routes>
+                    <Route path={'/'} element={<StartPage/>}/>
+                    <Route path={'account'} element={<AccountPage/>}/>
+                    <Route path={'purchase'} element={<VSRPurchasePage/>}/>
+                    <Route path={'success'} element={<SuccessPage/>}/>
+                    <Route path={'cancel'} element={<CancellationPage/>}/>
+                    <Route path={'login'} element={<LoginPage/>}/>
+                    <Route path={'signup'} element={<SignupPage/>}/>
+                    <Route path={'verify'} element={<VerifyingEmailPage/>}/>
+                </Routes>
+            </div>
+        </div>
+    );
 }
 
 export default App;

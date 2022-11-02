@@ -1,0 +1,94 @@
+.AccountPage {
+    margin-top: 17px;
+    text-align: start;
+}
+
+.AccountPage_Data {
+    margin-top: 27px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.AccountPage_Settings {}
+
+.AccountPage_ManageSection {
+    width: 49%;
+}
+
+.AccountPage_Seat_Element {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+}
+
+.AccountPage_Seat_Element input {
+    max-width: 200px;
+    height: 56px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 2px solid #BEBEBE;
+    padding: 5px 10px;
+    outline: none;
+}
+
+.AccountPage_Seat_Element button {
+    width: 130px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.Btn {
+    width: 100%;
+    padding: 19px 0;
+    margin-top: 19px;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-size: 18px;
+}
+
+.Btn:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}
+
+.Btn_WithLink a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.NotFirstTime_Buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 27px;
+}
+
+.NotFirstTime_Buttons button {
+    width: 150px;
+    font-size: 16px;
+}
+
+.NotFirstTime_Element {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.NotFirstTime_Element_Buttons {}
+.NotFirstTime_Element_Buttons button:nth-child(1) {
+    margin-right: 9px;
+}
+
+.NotFirstTime_Element input {
+    height: 48px;
+    width: 51%;
+}
+
+.NotFirstTime_Element button {
+    font-size: 14px;
+    width: 103px;
+}
+

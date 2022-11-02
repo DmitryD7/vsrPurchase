@@ -1,0 +1,26 @@
+.Header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Header_StyleScanIco {
+    width: 110px;
+}
+
+.Header_Account {}
+
+.Header_Account a:nth-child(1) {
+    margin-right: 17px;
+}
+
+.Header_Account a {
+    text-decoration: none;
+    color: #0f0f0f;
+}
+
+/*@media screen and (max-width: 1060px) {*/
+/*    .Header {*/
+/*        text-align: center;*/
+/*        margin-bottom: 17px;*/
+/*    }*/
+/*}*/
