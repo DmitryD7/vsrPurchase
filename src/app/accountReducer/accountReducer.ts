@@ -88,7 +88,7 @@ export const accountSlice = createSlice({
     initialState: {
         email: '',
         numberOfSeats: iMaxSeats,
-        seats: [],
+        seats: vSeats,
     },
     reducers: {},
     extraReducers: builder => {
