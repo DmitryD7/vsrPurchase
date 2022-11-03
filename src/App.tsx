@@ -11,20 +11,26 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import VerifyingEmailPage from "./pages/VerifyingEmailPage/VerifyingEmailPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import VSRPurchasePage from "./pages/VSRPurchasePage/VSRPurchasePage";
+import {useSelector} from "react-redux";
+import {accountActions, accSelectors} from "./app/accountReducer";
 
 function App() {
     const dispatch = useAppDispatch();
     const {initializeApp} = appActions;
+    const {selectNumberOfSeats} = accSelectors;
+    const {fetchSeats} = accountActions;
+    const numberOfSeats = useSelector(selectNumberOfSeats);
 
     useEffect(() => {
         dispatch(initializeApp());
-    }, [dispatch, initializeApp]);
+        dispatch(fetchSeats());
+    }, [dispatch, initializeApp, fetchSeats]);
 
     // if (status === "loading") {
     //     return <Loader/>
     // }
 
-    const StartPage = () => <AccountPage/>
+    const StartPage = () => numberOfSeats > 0 ? <AccountPage/> : <VSRPurchasePage/>
 
     return (
         <div className={s.Container}>

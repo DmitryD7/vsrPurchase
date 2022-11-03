@@ -84,7 +84,7 @@ export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
-        numberOfSeats: 0,
+        numberOfSeats: 5,
         seats: [] as Array<UsersSeatType>
     },
     reducers: {},
@@ -107,6 +107,7 @@ export const accountSlice = createSlice({
 export const accountAsync = {
     debug,
     fetchSeats,
+    setSeat,
     sendEmailToSeat,
     sendEmailToAllSeats,
 };

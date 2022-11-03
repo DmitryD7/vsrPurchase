@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './AccountPage.module.css';
 import {useAppDispatch} from "../../utils/utils";
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
-import {Link, Navigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
@@ -12,8 +12,13 @@ function AccountPage() {
     const dispatch = useAppDispatch();
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
+    const {selectNumberOfSeats, selectSeats} = accSelectors;
+    const numberOfSeats = useSelector(selectNumberOfSeats);
+    const seatsList = useSelector(selectSeats);
+    const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat} = accountActions;
 
-    let seatsNumber = 1;
+    let seatsNumber = 5;
+    console.log(seatsList)
 
     const {selectAccEmail} = accSelectors;
     const accEmail = useSelector(selectAccEmail);
@@ -43,9 +48,13 @@ function AccountPage() {
         <div className={s.AccountPage}>
             <h1>Hello {accEmail}!</h1>
             <div className={s.AccountPage_Data}>
-                {seatsNumber === 0
-                    ? <FirstTimeAppearanceComponent/>
-                    : <NotFirstTimeAppearanceComponent/>
+                {seatsNumber !== 0
+                    && <>
+                        {seatsList.length > 0
+                            ? <NotFirstTimeAppearanceComponent/>
+                            : <FirstTimeAppearanceComponent/>
+                        }
+                    </>
                 }
 
                 <section className={s.AccountPage_Settings}>
@@ -66,9 +75,13 @@ function AccountPage() {
 export default AccountPage;
 
 const FirstTimeAppearanceComponent = () => {
+    const dispatch = useAppDispatch();
+    const {setSeat} = accountActions;
     const [seatEmail, setSeatEmail] = useState('');
     const onSeatEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSeatEmail(e.target.value);
-    const onSetSeatEmailClickHandler = () => console.log(seatEmail);
+    const onSetSeatEmailClickHandler = () => {
+        dispatch(setSeat({iSeatNumber: 1, sEmail: seatEmail}))
+    };
 
     return (
         <section className={s.AccountPage_PlanInfo}>
@@ -82,6 +95,8 @@ const FirstTimeAppearanceComponent = () => {
 }
 
 const NotFirstTimeAppearanceComponent = () => {
+    const dispatch = useAppDispatch();
+    const {sendEmailToSeat, sendEmailToAllSeats} = accountActions;
     const [seatEmail, setSeatEmail] = useState('');
     const onSeatEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSeatEmail(e.target.value);
     const onEmailClickHandler = () => console.log('onEmailClick');
