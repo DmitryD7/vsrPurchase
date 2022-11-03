@@ -1,18 +1,28 @@
 import s from "./NotFirstTimeAppearanceComponent.module.css";
-import React from "react";
-import {UsersSeatType} from "../../api/api";
+import React, {useState} from "react";
+import {SendEmailToSeatParamsType, UsersSeatType} from "../../api/api";
+import {useClipboard} from "use-clipboard-copy";
 
 export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceComponentPropsType) => {
-    const {index, dispatch, seat} = props;
+    const clipboard = useClipboard();
+    const [newEmail, setNewEmail] = useState('');
+
+    const {index, seat, onSendEmailToSeat} = props;
     const {sURL, sEmail} = seat;
 
-    const onEmailClickHandler = () => console.log(`onEmailClick  seatIndex: ${index}`);
-    const onCopyUrlClickHandler = () => console.log(`onCopyUrlClick seatIndex: ${index} sUrl: ${sURL}`);
+    const onEmailClickHandler = () => {
+        onSendEmailToSeat({iSeatNumber: index});
+        console.log(`onEmailClick  seatIndex: ${index}, seatEmail: ${sEmail}`);
+    };
+    const onCopyUrlClickHandler = () => {
+        clipboard.copy(sURL)
+        console.log(`onCopyUrlClick seatIndex: ${index} sUrl: ${sURL}`);
+    };
 
     return (
         <section>
             <div className={s.NotFirstTime_Element}>
-                <input type="email" defaultValue={sEmail} disabled/>
+                <input type="email" defaultValue={sEmail} onChange={e => setNewEmail(e.target.value)}/>
                 <div className={s.NotFirstTime_Element_Buttons}>
                     <button className={s.Btn} onClick={onEmailClickHandler}>Email</button>
                     <button className={s.Btn} onClick={onCopyUrlClickHandler}>Copy URL</button>
@@ -24,6 +34,6 @@ export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceCom
 
 type NotFirstTimeAppearanceComponentPropsType = {
     index: number
-    dispatch: any
     seat: UsersSeatType
+    onSendEmailToSeat: (params: SendEmailToSeatParamsType) => void
 }

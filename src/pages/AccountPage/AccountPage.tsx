@@ -11,7 +11,7 @@ import {
     NotFirstTimeAppearanceComponent
 } from "../../components/NotFirstTimeAppearanceComponent/NotFirstTimeAppearanceComponent";
 import {FirstTimeAppearanceComponent} from "../../components/FirstTimeAppearanceComponent/FirstTimeAppearanceComponent";
-import {SetSeatParamsType, UsersSeatType} from "../../api/api";
+import {SendEmailToSeatParamsType, SetSeatParamsType, UsersSeatType} from "../../api/api";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
@@ -48,6 +48,10 @@ function AccountPage() {
         dispatch(setSeat(params))
     };
 
+    const onSendEmailToSeat = (params: SendEmailToSeatParamsType) => {
+        dispatch(sendEmailToSeat(params));
+    };
+
     const onEmailAllClickHandler = () => console.log('onEmailAllClick');
     const onDownloadCSVClickHandler = () => console.log('onDownloadCSVClick');
 
@@ -56,8 +60,8 @@ function AccountPage() {
     const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType, i) => <NotFirstTimeAppearanceComponent
         key={seat.sEmail}
         index={i}
-        dispatch={dispatch}
         seat={seat}
+        onSendEmailToSeat={onSendEmailToSeat}
     />)
 
     if (!isLoggedIn) {
