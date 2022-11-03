@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import s from './AccountPage.module.css';
 import {useAppDispatch} from "../../utils/utils";
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
@@ -12,6 +12,7 @@ import {
 } from "../../components/NotFirstTimeAppearanceComponent/NotFirstTimeAppearanceComponent";
 import {FirstTimeAppearanceComponent} from "../../components/FirstTimeAppearanceComponent/FirstTimeAppearanceComponent";
 import {SendEmailToSeatParamsType, SetSeatParamsType, UsersSeatType} from "../../api/api";
+import {ExportToCsv} from "export-to-csv";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
@@ -32,7 +33,8 @@ function AccountPage() {
 
     useEffect(() => {
         dispatch(debug());
-    }, [dispatch, debug]);
+        dispatch(fetchSeats);
+    }, [dispatch, debug, fetchSeats]);
 
     const onLogoutHandler = async () => {
         const res = await dispatch(authActions.logout());
@@ -42,27 +44,73 @@ function AccountPage() {
         }
     }
 
-    const inputsListForFirstTimeAppearance = Array.from(Array(numberOfSeats), (_, i) => i+1);
+    const inputsListForFirstTimeAppearance = Array.from(Array(numberOfSeats), (_, i) => i + 1);
+
+    const inputsDiff = () => {
+        if (numberOfSeats > seatsList.length) {
+            const diff = numberOfSeats - seatsList.length;
+            return Array.from(Array(diff), (_, i) => seatsList.length + i);
+        }
+        return null;
+    };
 
     const onSetSeatEmailClick = (params: SetSeatParamsType) => {
-        dispatch(setSeat(params))
+        dispatch(setSeat(params));
     };
 
     const onSendEmailToSeat = (params: SendEmailToSeatParamsType) => {
         dispatch(sendEmailToSeat(params));
     };
 
-    const onEmailAllClickHandler = () => console.log('onEmailAllClick');
-    const onDownloadCSVClickHandler = () => console.log('onDownloadCSVClick');
+    const onEmailAllClickHandler = () => {
+        console.log('onEmailAllClick');
+        dispatch(sendEmailToAllSeats());
+    };
 
-    const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent index={num} key={num} onSetSeatEmailClick={onSetSeatEmailClick}/>)
+    const options = {
+        fieldSeparator: ',',
+        filename: 'StyleScan-CSV',
+        quoteStrings: '"',
+        decimalSeparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: 'StyleScan VSR CSV',
+        useTextFile: false,
+        useBom: true,
+        useKeysAsHeaders: true,
+    };
+    const csvExporter = new ExportToCsv(options);
+
+    const onDownloadCSVClickHandler = () => {
+        console.log('onDownloadCSVClick');
+        csvExporter.generateCsv(seatsList);
+    };
+
+    const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent
+        index={num}
+        key={num}
+        onSetSeatEmailClick={onSetSeatEmailClick}
+    />);
 
     const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType, i) => <NotFirstTimeAppearanceComponent
         key={seat.sEmail}
         index={i}
         seat={seat}
         onSendEmailToSeat={onSendEmailToSeat}
-    />)
+        onSetSeatEmailClick={onSetSeatEmailClick}
+    />);
+
+    const renderDiff = () => inputsDiff()?.map((num) => <FirstTimeAppearanceComponent
+        index={num}
+        key={num}
+        onSetSeatEmailClick={onSetSeatEmailClick}
+    />);
+
+    const renderNotFirstTimeWithDiff = () => {
+        const a = renderNotFirstTime()
+        const b = renderDiff()
+        return <>{a}{b}</>
+    }
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -83,7 +131,7 @@ function AccountPage() {
                             <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
                         </div>}
                         {seatsList.length > 0
-                            ? renderNotFirstTime()
+                            ? renderNotFirstTimeWithDiff()
                             : renderFirstTime()
                         }
                     </div>
