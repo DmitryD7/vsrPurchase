@@ -7,18 +7,23 @@ import {useSelector} from "react-redux";
 import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
 import {accountActions, accSelectors} from "../../app/accountReducer";
+import {
+    NotFirstTimeAppearanceComponent
+} from "../../components/NotFirstTimeAppearanceComponent/NotFirstTimeAppearanceComponent";
+import {FirstTimeAppearanceComponent} from "../../components/FirstTimeAppearanceComponent/FirstTimeAppearanceComponent";
+import {SetSeatParamsType, UsersSeatType} from "../../api/api";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
+
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
+
     const {selectNumberOfSeats, selectSeats} = accSelectors;
     const numberOfSeats = useSelector(selectNumberOfSeats);
     const seatsList = useSelector(selectSeats);
-    const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat} = accountActions;
 
-    let seatsNumber = 5;
-    console.log(seatsList)
+    const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat, setSeat} = accountActions;
 
     const {selectAccEmail} = accSelectors;
     const accEmail = useSelector(selectAccEmail);
@@ -37,6 +42,24 @@ function AccountPage() {
         }
     }
 
+    const inputsListForFirstTimeAppearance = Array.from(Array(numberOfSeats), (_, i) => i+1);
+
+    const onSetSeatEmailClick = (params: SetSeatParamsType) => {
+        dispatch(setSeat(params))
+    };
+
+    const onEmailAllClickHandler = () => console.log('onEmailAllClick');
+    const onDownloadCSVClickHandler = () => console.log('onDownloadCSVClick');
+
+    const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent index={num} key={num} onSetSeatEmailClick={onSetSeatEmailClick}/>)
+
+    const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType, i) => <NotFirstTimeAppearanceComponent
+        key={seat.sEmail}
+        index={i}
+        dispatch={dispatch}
+        seat={seat}
+    />)
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
@@ -48,13 +71,18 @@ function AccountPage() {
         <div className={s.AccountPage}>
             <h1>Hello {accEmail}!</h1>
             <div className={s.AccountPage_Data}>
-                {seatsNumber !== 0
-                    && <>
+                {numberOfSeats !== 0
+                    && <div className={s.AccountPage_ManageSection}>
+                        <h3>{seatsList.length > 0 ? 'Manage your seats' : 'Fill in an email address for each seat'}</h3>
+                        {seatsList.length > 0 && <div className={s.NotFirstTime_Buttons}>
+                            <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
+                            <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
+                        </div>}
                         {seatsList.length > 0
-                            ? <NotFirstTimeAppearanceComponent/>
-                            : <FirstTimeAppearanceComponent/>
+                            ? renderNotFirstTime()
+                            : renderFirstTime()
                         }
-                    </>
+                    </div>
                 }
 
                 <section className={s.AccountPage_Settings}>
@@ -73,51 +101,3 @@ function AccountPage() {
 }
 
 export default AccountPage;
-
-const FirstTimeAppearanceComponent = () => {
-    const dispatch = useAppDispatch();
-    const {setSeat} = accountActions;
-    const [seatEmail, setSeatEmail] = useState('');
-    const onSeatEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSeatEmail(e.target.value);
-    const onSetSeatEmailClickHandler = () => {
-        dispatch(setSeat({iSeatNumber: 1, sEmail: seatEmail}))
-    };
-
-    return (
-        <section className={s.AccountPage_PlanInfo}>
-            <h3>Fill in an email address for each seat</h3>
-            <div className={s.AccountPage_Seat_Element}>
-                <input type="email" value={seatEmail} onChange={onSeatEmailChangeHandler}/>
-                <button className={s.Btn} onClick={onSetSeatEmailClickHandler}>Set Seat</button>
-            </div>
-        </section>
-    );
-}
-
-const NotFirstTimeAppearanceComponent = () => {
-    const dispatch = useAppDispatch();
-    const {sendEmailToSeat, sendEmailToAllSeats} = accountActions;
-    const [seatEmail, setSeatEmail] = useState('');
-    const onSeatEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSeatEmail(e.target.value);
-    const onEmailClickHandler = () => console.log('onEmailClick');
-    const onCopyUrlClickHandler = () => console.log('onCopyUrlClick');
-    const onEmailAllClickHandler = () => console.log('onEmailAllClick');
-    const onDownloadCSVClickHandler = () => console.log('onDownloadCSVClick');
-
-    return (
-        <section className={s.AccountPage_ManageSection}>
-            <h3>Manage your seats</h3>
-            <div className={s.NotFirstTime_Buttons}>
-                <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
-                <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
-            </div>
-            <div className={s.NotFirstTime_Element}>
-                <input type="email" value={seatEmail} onChange={onSeatEmailChangeHandler}/>
-                <div className={s.NotFirstTime_Element_Buttons}>
-                    <button className={s.Btn} onClick={onEmailClickHandler}>Email</button>
-                    <button className={s.Btn} onClick={onCopyUrlClickHandler}>Copy URL</button>
-                </div>
-            </div>
-        </section>
-    );
-}

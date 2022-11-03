@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {authAPI, vsrAPI, SetSeatParamsType, UsersSeatType, SendEmailToSeatParamsType} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
+import {seatsResponse} from "../../assets/seats";
 
 const {setAppStatus} = appCommonActions;
 
@@ -80,12 +81,14 @@ const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('
     }
 });
 
+const {iMaxSeats, vSeats} = seatsResponse;
+
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
-        numberOfSeats: 5,
-        seats: [] as Array<UsersSeatType>
+        numberOfSeats: iMaxSeats,
+        seats: [],
     },
     reducers: {},
     extraReducers: builder => {

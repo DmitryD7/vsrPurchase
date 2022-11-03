@@ -78,8 +78,8 @@ export type SendEmailToSeatParamsType = {
 }
 
 export type UsersSeatType = {
-    email: string,
-    url: string
+    sEmail: string,
+    sURL: string
 }
 
 export type GetSeatsResponseType = {

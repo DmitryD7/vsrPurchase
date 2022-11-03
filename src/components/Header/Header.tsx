@@ -16,7 +16,7 @@ function Header() {
                 </Link>
             </div>
             <div className={s.Header_Account}>
-                <Link to={'purchase'}>Purchase</Link>
+                {isLoggedIn && <Link to={'purchase'}>Purchase</Link>}
                 {isLoggedIn
                     ? <Link to={'account'}>Account</Link>
                     : <Link to={'login'}>Login</Link>

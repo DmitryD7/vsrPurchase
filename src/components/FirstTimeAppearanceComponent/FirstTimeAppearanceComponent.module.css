@@ -1,0 +1,39 @@
+.FirstTimeAppearanceComponent {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+}
+
+.FirstTimeAppearanceComponent input {
+    /*max-width: 200px;*/
+    width: 61%;
+    height: 56px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 2px solid #BEBEBE;
+    padding: 5px 10px;
+    outline: none;
+}
+
+.FirstTimeAppearanceComponent button {
+    width: 130px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.Btn {
+    width: 100%;
+    padding: 19px 0;
+    margin-top: 19px;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-size: 18px;
+}
+
+.Btn:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}

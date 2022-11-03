@@ -1,0 +1,35 @@
+.NotFirstTime_Element {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.NotFirstTime_Element input {
+    height: 48px;
+    width: 51%;
+}
+
+.NotFirstTime_Element_Buttons {}
+.NotFirstTime_Element_Buttons button:nth-child(1) {
+    margin-right: 9px;
+}
+
+.NotFirstTime_Element button {
+    font-size: 14px;
+    width: 103px;
+}
+
+.Btn {
+    width: 100%;
+    padding: 19px 0;
+    margin-top: 19px;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-size: 18px;
+}
+
+.Btn:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}

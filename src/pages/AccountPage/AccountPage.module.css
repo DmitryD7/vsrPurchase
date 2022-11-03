@@ -16,30 +16,6 @@
     width: 49%;
 }
 
-.AccountPage_Seat_Element {
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    position: relative;
-}
-
-.AccountPage_Seat_Element input {
-    max-width: 200px;
-    height: 56px;
-    box-sizing: border-box;
-    font-size: 16px;
-    border: 2px solid #BEBEBE;
-    padding: 5px 10px;
-    outline: none;
-}
-
-.AccountPage_Seat_Element button {
-    width: 130px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
 .Btn {
     width: 100%;
     padding: 19px 0;
@@ -70,25 +46,3 @@
     width: 150px;
     font-size: 16px;
 }
-
-.NotFirstTime_Element {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
-.NotFirstTime_Element_Buttons {}
-.NotFirstTime_Element_Buttons button:nth-child(1) {
-    margin-right: 9px;
-}
-
-.NotFirstTime_Element input {
-    height: 48px;
-    width: 51%;
-}
-
-.NotFirstTime_Element button {
-    font-size: 14px;
-    width: 103px;
-}
-
