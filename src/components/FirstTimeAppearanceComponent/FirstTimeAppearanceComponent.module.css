@@ -8,18 +8,13 @@
 
 .FirstTimeAppearanceComponent input {
     /*max-width: 200px;*/
-    width: 61%;
-    height: 56px;
-    box-sizing: border-box;
-    font-size: 16px;
-    border: 2px solid #BEBEBE;
-    padding: 5px 10px;
-    outline: none;
+    height: 48px;
+    width: 51%;
 }
 
 .FirstTimeAppearanceComponent button {
     width: 130px;
-    font-size: 16px;
+    font-size: 14px;
     box-sizing: border-box;
 }
 
