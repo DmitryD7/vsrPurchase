@@ -1,8 +1,7 @@
 import {GetSeatsResponseType} from "../api/api";
 
 export const seatsResponse: GetSeatsResponseType = {
-    iMaxSeats: 7,
-    vSeats: [
+    seats: [
         {
             sEmail: '1a@b.com',
             sURL: 'https://1a@b.com',

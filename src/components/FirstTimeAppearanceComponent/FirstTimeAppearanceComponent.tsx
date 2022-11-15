@@ -10,7 +10,7 @@ export const FirstTimeAppearanceComponent = (props: FirstTimeAppearanceComponent
     const onSeatEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSeatEmail(e.target.value);
 
     const onSetSeatEmailClickHandler = () => {
-        onSetSeatEmailClick({sEmail: seatEmail, iSeatNumber: index});
+        onSetSeatEmailClick({email: seatEmail, index});
         console.log(`onSetSeatEmailClick  sEmail: ${seatEmail}, index: ${index}`);
     };
 

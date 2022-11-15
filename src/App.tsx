@@ -13,24 +13,28 @@ import AccountPage from "./pages/AccountPage/AccountPage";
 import VSRPurchasePage from "./pages/VSRPurchasePage/VSRPurchasePage";
 import {useSelector} from "react-redux";
 import {accountActions, accSelectors} from "./app/accountReducer";
+import {selectIsLoggedIn} from "./app/authReducer";
 
 function App() {
     const dispatch = useAppDispatch();
     const {initializeApp} = appActions;
-    const {selectNumberOfSeats} = accSelectors;
     const {fetchSeats} = accountActions;
-    const numberOfSeats = useSelector(selectNumberOfSeats);
+    const {selectSeats} = accSelectors;
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const seats = useSelector(selectSeats);
 
     useEffect(() => {
         dispatch(initializeApp());
-        dispatch(fetchSeats());
+        if (isLoggedIn){
+            dispatch(fetchSeats());
+        }
     }, [dispatch, initializeApp, fetchSeats]);
 
     // if (status === "loading") {
     //     return <Loader/>
     // }
 
-    const StartPage = () => numberOfSeats > 0 ? <AccountPage/> : <VSRPurchasePage/>
+    const StartPage = () => seats.length > 0 ? <AccountPage/> : <VSRPurchasePage/>;
 
     return (
         <div className={s.Container}>

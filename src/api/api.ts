@@ -11,7 +11,7 @@ export const authAPI = {
         return instance.get('');
     },
     signUp(data: SignupParamsType) {
-        return instance.post('signup', data);
+        return instance.post<SignupResponseType>('signup', data);
     },
     login(data: LoginParamsType) {
         return instance.post('login', data);
@@ -22,10 +22,10 @@ export const authAPI = {
     deleteAcc() {
         return instance.get('delete');
     },
-    changePassword(data: ResetPasswordDataType) {
+    changePassword(data: ChangePasswordDataType) {
         return instance.post('reset_password', data);
     },
-    requestResetPassword(data: RequestResetPasswordType) {
+    requestPasswordReset(data: RequestPasswordResetType) {
         return instance.post('reset_request', data);
     },
     refresh() {
@@ -37,6 +37,9 @@ export const authAPI = {
 };
 
 export const vsrAPI = {
+    buySeats(params: BuySeatsParamsType) {
+        return instance.post<{ url: string }>('vsr/buy-seats', params);
+    },
     getSeats() {
         return instance.post<GetSeatsResponseType>('vsr/get-seat');
     },
@@ -51,43 +54,56 @@ export const vsrAPI = {
     },
 }
 
+//Types for Auth
 export type LoginParamsType = {
     email: string,
     password: string,
 }
+export type LoginResponseType = {
+    email: string,		// account identifier
+    payment: boolean,		// does user have a stripe account
+    admin?: boolean,		// is user an administrator
+}
 
 export type SignupParamsType = LoginParamsType & { redirect?: string }
 
-export type RequestResetPasswordType = {
+export type SignupResponseType = {
+    email: string
+}
+
+export type RequestPasswordResetType = {
     email: string,
     redirect?: string,
 }
 
-export type ResetPasswordDataType = {
+export type ChangePasswordDataType = {
     code: string,
     password: string,
 }
 
+
+//Types for vsr
+export type BuySeatsParamsType = {
+    seats?: number  // initial number of seats, default 5
+    url?: string     // return url that the portal or checkout exits to
+}
+
 export type SetSeatParamsType = {
-    iSeatNumber: number, // index of seat
-    sEmail: string,
+    index: number, // index of seat
+    email: string,
 }
 
 export type SendEmailToSeatParamsType = {
-    iSeatNumber: number
+    index: number
 }
 
 export type UsersSeatType = {
-    sEmail: string,
-    sURL: string
+    email: string,
+    url: string
 }
 
 export type GetSeatsResponseType = {
-    iMaxSeats: number, // non-negative integer
-    vSeats: Array<UsersSeatType>
+    seats: Array<UsersSeatType | {}>
 }
 
-export type SetSeatResponseType = {
-    ok: boolean,
-    sURL: string
-}
+export type SetSeatResponseType = {} | UsersSeatType

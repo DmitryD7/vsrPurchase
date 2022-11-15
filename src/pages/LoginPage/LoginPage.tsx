@@ -19,7 +19,6 @@ function LoginPage() {
         const errors: FormErrorType = {};
         errors.email = emailValidate(values.email);
         errors.password = passwordValidate(values.password);
-
         return errors.email || errors.password ? errors : {};
     };
 

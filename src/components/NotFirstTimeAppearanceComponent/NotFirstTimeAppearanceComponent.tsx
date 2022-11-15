@@ -9,15 +9,15 @@ export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceCom
     const [isEditing, setIsEditing] = useState(false);
 
     const {index, seat, onSendEmailToSeat, onSetSeatEmailClick} = props;
-    const {sURL, sEmail} = seat;
+    const {url, email} = seat;
 
     const onEmailClickHandler = () => {
-        onSendEmailToSeat({iSeatNumber: index});
-        console.log(`onEmailClick  seatIndex: ${index}, seatEmail: ${sEmail}`);
+        onSendEmailToSeat({index});
+        console.log(`onEmailClick  seatIndex: ${index}, seatEmail: ${email}`);
     };
     const onCopyUrlClickHandler = () => {
-        clipboard.copy(sURL)
-        console.log(`onCopyUrlClick seatIndex: ${index} sUrl: ${sURL}`);
+        clipboard.copy(url)
+        console.log(`onCopyUrlClick seatIndex: ${index} sUrl: ${url}`);
     };
     const onEmailChangeHandler = () => {
         setIsEditing(true);
@@ -28,14 +28,14 @@ export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceCom
             {!isEditing
                 ? <section>
                     <div className={s.NotFirstTime_Element}>
-                        <input type="email" defaultValue={sEmail} onChange={onEmailChangeHandler}/>
+                        <input type="email" defaultValue={email} onChange={onEmailChangeHandler}/>
                         <div className={s.NotFirstTime_Element_Buttons}>
                             <button className={s.Btn} onClick={onEmailClickHandler}>Email</button>
                             <button className={s.Btn} onClick={onCopyUrlClickHandler}>Copy URL</button>
                         </div>
                     </div>
                 </section>
-                : <FirstTimeAppearanceComponent onSetSeatEmailClick={onSetSeatEmailClick} index={index} value={sEmail}/>
+                : <FirstTimeAppearanceComponent onSetSeatEmailClick={onSetSeatEmailClick} index={index} value={email}/>
             }
         </>
     )

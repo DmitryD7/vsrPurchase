@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authAPI, LoginParamsType, RequestResetPasswordType, SignupParamsType,} from "../../api/api";
+import {authAPI, LoginParamsType, RequestPasswordResetType, SignupParamsType,} from "../../api/api";
 import {appCommonActions} from "../applicationCommonActions";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 
@@ -9,9 +9,9 @@ const login = createAsyncThunk<undefined, LoginParamsType, ThunkError>('auth/log
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await authAPI.login(params);
-        if (res.data.ok === 1) {
+        if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            return res.data.ok;
+            return res.data.email;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
@@ -39,9 +39,9 @@ const signup = createAsyncThunk<undefined, SignupParamsType, ThunkError>('auth/s
     setAppStatus({status: 'loading'});
     try {
         const res = await authAPI.signUp(params);
-        if (res.data.ok === 1) {
+        if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            return res.data.ok;
+            return res.data.email;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
@@ -50,10 +50,10 @@ const signup = createAsyncThunk<undefined, SignupParamsType, ThunkError>('auth/s
     }
 })
 
-const requestResetPassword = createAsyncThunk<undefined, RequestResetPasswordType, ThunkError>('auth/request_reset', async (param, thunkAPI) => {
+const requestResetPassword = createAsyncThunk<undefined, RequestPasswordResetType, ThunkError>('auth/request_reset', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
-        const res = await authAPI.requestResetPassword(param);
+        const res = await authAPI.requestPasswordReset(param);
         if (res.status === 200) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             return res.data.ok;
@@ -77,7 +77,7 @@ export const authSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(login.fulfilled, (state, action) => {
-            if (action.payload === 1) {
+            if (action.payload) {
                 state.isLoggedIn = true;
             }
         });

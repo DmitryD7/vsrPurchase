@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI, vsrAPI, SetSeatParamsType, UsersSeatType, SendEmailToSeatParamsType} from "../../api/api";
+import {authAPI, vsrAPI, SetSeatParamsType, SendEmailToSeatParamsType} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
 import {seatsResponse} from "../../assets/seats";
@@ -25,7 +25,7 @@ const fetchSeats = createAsyncThunk('account/fetchSeats', async (param, thunkAPI
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await vsrAPI.getSeats();
-        if (res.data.iMaxSeats) {
+        if (res.data.seats) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             return res.data;
         } else {
@@ -40,9 +40,9 @@ const setSeat = createAsyncThunk<undefined, SetSeatParamsType, ThunkError>('acco
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await vsrAPI.setSeat(params);
-        if (res.data.ok === true) {
+        if (res.data) { // needs right condition
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            return res.data.sURL;
+            return res.data;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
@@ -81,14 +81,13 @@ const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('
     }
 });
 
-const {iMaxSeats, vSeats} = seatsResponse;
+const {seats} = seatsResponse;
 
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
-        numberOfSeats: iMaxSeats,
-        seats: vSeats,
+        seats: seats,
     },
     reducers: {},
     extraReducers: builder => {
@@ -96,11 +95,10 @@ export const accountSlice = createSlice({
             state.email = action.payload;
         });
         builder.addCase(fetchSeats.fulfilled, (state, action) => {
-            state.numberOfSeats = action.payload.iMaxSeats;
             state.seats = action.payload.vSeats;
         });
         builder.addCase(setSeat.fulfilled, (state, action) => {
-            const index = action.meta.arg.iSeatNumber
+            const index = action.meta.arg.index
             // @ts-ignore
             state.seats[index].url = action.payload;
         });

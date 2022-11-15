@@ -20,8 +20,7 @@ function AccountPage() {
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
 
-    const {selectNumberOfSeats, selectSeats} = accSelectors;
-    const numberOfSeats = useSelector(selectNumberOfSeats);
+    const {selectSeats} = accSelectors;
     const seatsList = useSelector(selectSeats);
 
     const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat, setSeat} = accountActions;
@@ -44,17 +43,8 @@ function AccountPage() {
         }
     }
 
-    const inputsListForFirstTimeAppearance = Array.from(Array(numberOfSeats), (_, i) => i + 1);
-
-    const inputsDiff = () => {
-        if (numberOfSeats > seatsList.length) {
-            const diff = numberOfSeats - seatsList.length;
-            return Array.from(Array(diff), (_, i) => seatsList.length + i);
-        }
-        return null;
-    };
-
     const onSetSeatEmailClick = (params: SetSeatParamsType) => {
+        console.log(params)
         dispatch(setSeat(params));
     };
 
@@ -63,7 +53,6 @@ function AccountPage() {
     };
 
     const onEmailAllClickHandler = () => {
-        console.log('onEmailAllClick');
         dispatch(sendEmailToAllSeats());
     };
 
@@ -82,35 +71,62 @@ function AccountPage() {
     const csvExporter = new ExportToCsv(options);
 
     const onDownloadCSVClickHandler = () => {
-        console.log('onDownloadCSVClick');
         csvExporter.generateCsv(seatsList);
     };
 
-    const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent
-        index={num}
-        key={num}
-        onSetSeatEmailClick={onSetSeatEmailClick}
-    />);
+    // const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent
+    //     index={num}
+    //     key={num}
+    //     onSetSeatEmailClick={onSetSeatEmailClick}
+    // />);
+    //
+    // const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType | {}, i) =>
+    //     <NotFirstTimeAppearanceComponent
+    //         key={seat.email}
+    //         index={i}
+    //         seat={seat}
+    //         onSendEmailToSeat={onSendEmailToSeat}
+    //         onSetSeatEmailClick={onSetSeatEmailClick}
+    //     />
+    // );
 
-    const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType, i) => <NotFirstTimeAppearanceComponent
-        key={seat.sEmail}
+    /*
+    ? <NotFirstTimeAppearanceComponent
+        key={seat.email}
         index={i}
         seat={seat}
         onSendEmailToSeat={onSendEmailToSeat}
         onSetSeatEmailClick={onSetSeatEmailClick}
-    />);
-
-    const renderDiff = () => inputsDiff()?.map((num) => <FirstTimeAppearanceComponent
-        index={num}
-        key={num}
+    />
+    : <FirstTimeAppearanceComponent
+        index={i}
+        key={i}
         onSetSeatEmailClick={onSetSeatEmailClick}
-    />);
+    />
+    */
 
-    const renderNotFirstTimeWithDiff = () => {
-        const a = renderNotFirstTime()
-        const b = renderDiff()
-        return <>{a}{b}</>
-    }
+    // @ts-ignore
+    const render = () => seatsList.map((seat: UsersSeatType, i) => {
+        // @ts-ignore
+        return (
+            <>
+                {seat.hasOwnProperty('email')
+                    ? <NotFirstTimeAppearanceComponent
+                        key={seat.email}
+                        index={i + 1}
+                        seat={seat}
+                        onSendEmailToSeat={onSendEmailToSeat}
+                        onSetSeatEmailClick={onSetSeatEmailClick}
+                    />
+                    : <FirstTimeAppearanceComponent
+                        index={i + 1}
+                        key={i}
+                        onSetSeatEmailClick={onSetSeatEmailClick}
+                    />
+                }
+            </>
+        )
+    });
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -123,18 +139,17 @@ function AccountPage() {
         <div className={s.AccountPage}>
             <h1>Hello {accEmail}!</h1>
             <div className={s.AccountPage_Data}>
-                {numberOfSeats !== 0
-                    && <div className={s.AccountPage_ManageSection}>
+                {seatsList.length > 0 && <div className={s.AccountPage_ManageSection}>
+                    <>
                         <h3>{seatsList.length > 0 ? 'Manage your seats' : 'Fill in an email address for each seat'}</h3>
-                        {seatsList.length > 0 && <div className={s.NotFirstTime_Buttons}>
-                            <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
-                            <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
-                        </div>}
-                        {seatsList.length > 0
-                            ? renderNotFirstTimeWithDiff()
-                            : renderFirstTime()
-                        }
-                    </div>
+                        {seatsList.length > 0 &&
+                            <div className={s.NotFirstTime_Buttons}>
+                                <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
+                                <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
+                            </div>}
+                        {render()}
+                    </>
+                </div>
                 }
 
                 <section className={s.AccountPage_Settings}>

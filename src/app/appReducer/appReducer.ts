@@ -12,9 +12,10 @@ const initializeApp = createAsyncThunk<undefined, undefined, ThunkError>('app/in
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await authAPI.refresh();
-        if (res.data.ok === 1) {
+        if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             thunkAPI.dispatch(setIsLoggedIn({value: true}));
+            return res.data.email;
         } else {
             thunkAPI.dispatch(setIsLoggedIn({value: false}));
             return handleAsyncServerAppError(res.data, thunkAPI);
