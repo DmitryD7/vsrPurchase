@@ -1,10 +1,12 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI, vsrAPI, SetSeatParamsType, SendEmailToSeatParamsType} from "../../api/api";
+import {authAPI, vsrAPI, SetSeatParamsType, SendEmailToSeatParamsType, BuySeatsParamsType} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
 import {seatsResponse} from "../../assets/seats";
+import {appActions} from "../appReducer";
 
 const {setAppStatus} = appCommonActions;
+const {initializeApp} = appActions
 
 const debug = createAsyncThunk('auth/debug', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
@@ -21,12 +23,28 @@ const debug = createAsyncThunk('auth/debug', async (param, thunkAPI) => {
     }
 });
 
+const buySeats = createAsyncThunk<undefined, BuySeatsParamsType, ThunkError>('account/buySeats', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await vsrAPI.buySeats(param);
+        if (res.data.url) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data.url;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
+
 const fetchSeats = createAsyncThunk('account/fetchSeats', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await vsrAPI.getSeats();
         if (res.data.seats) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            console.log(res.data)
             return res.data;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -82,12 +100,28 @@ const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('
     }
 });
 
+const getPayment = createAsyncThunk('account/payment', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}));
+    try {
+        const res = await authAPI.payment();
+        if (res.data.url) {
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            return res.data.url;
+        } else {
+            return handleAsyncServerAppError(res.data, thunkAPI);
+        }
+    } catch (error: unknown | any) {
+        return handleAsyncServerNetworkError(error, thunkAPI);
+    }
+});
+
 const {seats} = seatsResponse;
 
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
+        payment: false,
         seats: seats,
     },
     reducers: {},
@@ -103,6 +137,12 @@ export const accountSlice = createSlice({
             // @ts-ignore
             state.seats[index].url = action.payload;
         });
+        builder.addCase(initializeApp.fulfilled, (state, action) => {
+            if (action.payload) {
+                // @ts-ignore
+                state.payment = action.payload.payment;
+            }
+        });
     },
 });
 
@@ -112,10 +152,12 @@ export const accountAsync = {
     setSeat,
     sendEmailToSeat,
     sendEmailToAllSeats,
+    buySeats,
+    getPayment,
 };
 
 export interface iUser {
     email: string,
-    numberOfSeats: number,
-    seats: []
+    payment: boolean,
+    seats: [],
 }

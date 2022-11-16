@@ -26,7 +26,7 @@ function App() {
     useEffect(() => {
         dispatch(initializeApp());
         if (isLoggedIn){
-            dispatch(fetchSeats());
+            dispatch(fetchSeats())
         }
     }, [dispatch, initializeApp, fetchSeats]);
 

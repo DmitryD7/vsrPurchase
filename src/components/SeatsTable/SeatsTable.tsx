@@ -13,6 +13,7 @@ function SeatsTable(props: SeatsTablePropsType) {
     return (
         <div className={s.SeatsTable}>
             <p>You have <b>{seatsList.length}</b> seats</p>
+            <button>Configure Seats</button>
             <table>
                 <tbody>
                 {seatsList.map((seat, i) => {

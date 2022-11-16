@@ -1,10 +1,12 @@
 import React from 'react';
 import s from './VSRPurchasePage.module.css';
 import {FormikHelpers, useFormik} from "formik";
-import {numberOfUsersValidate, useAppDispatch} from "../../utils/utils";
+import {goToURL, numberOfUsersValidate, useAppDispatch} from "../../utils/utils";
+import {accountActions} from "../../app/accountReducer";
 
 function VSRPurchasePage() {
     const dispatch = useAppDispatch();
+    const {buySeats} = accountActions;
 
     const validate = (values: { numberOfUsers: number }) => {
         const errors: ErrorFormValuesType = {};
@@ -19,12 +21,15 @@ function VSRPurchasePage() {
         },
         validate,
         onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-            // const res = await dispatch(authActions.login(values));
-            // if (res.payload?.error) {
-            //     const error = res.payload.error;
-            //     formikHelpers.setFieldError('numberOfUsers', error);
-            // }
-            console.log('subscribe: ', values)
+            const res = await dispatch(buySeats({seats: values.numberOfUsers}));
+            if (!res.payload?.error) {
+                const billingPortal = res.payload;
+                goToURL(billingPortal)
+            }
+            else if (res.payload?.error) {
+                const error = res.payload.error;
+                formikHelpers.setFieldError('numberOfUsers', error);
+            }
         },
     });
 

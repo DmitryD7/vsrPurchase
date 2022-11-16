@@ -7,9 +7,6 @@ const instance = axios.create({
 });
 
 export const authAPI = {
-    me() {
-        return instance.get('');
-    },
     signUp(data: SignupParamsType) {
         return instance.post<SignupResponseType>('signup', data);
     },
@@ -33,6 +30,9 @@ export const authAPI = {
     },
     debug() {
         return instance.get('debug.json');
+    },
+    payment() {
+        return instance.post<{url: string}>('payment');
     },
 };
 

@@ -8,8 +8,8 @@ let startState: iUser;
 beforeEach(() => {
     startState = {
         email: 'dd@gmail.com',
-        numberOfSeats: 5,
-        seats: []
+        seats: [],
+        payment: false,
     }
 });
 

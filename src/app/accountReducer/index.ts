@@ -3,10 +3,12 @@ import {accountAsync, accountSlice} from "./accountReducer";
 
 const selectAccEmail = (state: AppRootStateType) => state.account.email;
 const selectSeats = (state: AppRootStateType) => state.account.seats;
+const selectPayment = (state: AppRootStateType) => state.account.payment;
 
 const accSelectors = {
     selectAccEmail,
     selectSeats,
+    selectPayment,
 }
 
 const accountReducer = accountSlice.reducer;

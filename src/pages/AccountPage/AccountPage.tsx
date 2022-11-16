@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import s from './AccountPage.module.css';
-import {useAppDispatch} from "../../utils/utils";
+import {goToURL, useAppDispatch} from "../../utils/utils";
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
 import {Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
@@ -17,20 +17,19 @@ function AccountPage() {
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
 
-    const {selectSeats} = accSelectors;
+    const {selectSeats, selectPayment, selectAccEmail} = accSelectors;
     const seatsList = useSelector(selectSeats);
+    const accEmail = useSelector(selectAccEmail);
+    const payment = useSelector(selectPayment);
 
     const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat, setSeat} = accountActions;
 
-    const {selectAccEmail} = accSelectors;
-    const accEmail = useSelector(selectAccEmail);
-
-    const {debug} = accountActions;
+    const {debug, getPayment} = accountActions;
 
     useEffect(() => {
         dispatch(debug());
-        dispatch(fetchSeats);
-    }, [dispatch, debug, fetchSeats]);
+        // dispatch(fetchSeats());
+    }, [dispatch, debug]);
 
     const onLogoutHandler = async () => {
         const res = await dispatch(authActions.logout());
@@ -39,6 +38,12 @@ function AccountPage() {
             alert(error)
         }
     }
+
+    const onStripeManageHandler = async () => {
+        const res = await dispatch(getPayment());
+        const billingUrl = res.payload;
+        goToURL(billingUrl);
+    };
 
     const onSetSeatEmailClick = async (params: SetSeatParamsType) => {
         const res = await dispatch(setSeat(params));
@@ -84,7 +89,7 @@ function AccountPage() {
             <div className={s.AccountPage_Data}>
                 {seatsList.length > 0 && <div className={s.AccountPage_ManageSection}>
                     <>
-                        <h3>{seatsList.length > 0 ? 'Manage your seats' : 'Fill in an email address for each seat'}</h3>
+                        <h3>Manage your seats</h3>
                         {seatsList.length > 0 &&
                             <div className={s.NotFirstTime_Buttons}>
                                 <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
@@ -100,9 +105,10 @@ function AccountPage() {
 
                 <section className={s.AccountPage_Settings}>
                     <h3>Account settings</h3>
-                    <button className={`${s.Btn} ${s.Btn_WithLink}`}>
-                        <a href="https://billing.stripe.com/p/login/test_7sI6rD4lT672bPGbII">Manage Payment</a>
-                    </button>
+                    {payment && <button className={`${s.Btn} ${s.Btn_WithLink}`} onClick={onStripeManageHandler}>
+                        {/*<a href="https://billing.stripe.com/p/login/test_7sI6rD4lT672bPGbII">Manage Payment</a>*/}
+                        Manage Payment
+                    </button>}
                     <button onClick={onLogoutHandler} className={s.Btn}>Logout</button>
                 </section>
             </div>

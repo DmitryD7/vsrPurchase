@@ -84,4 +84,6 @@ export const numberOfUsersValidate = (numberOfUsers: number) => {
 // };
 
 
-export const useAppDispatch = () => useDispatch<AppDispatchType>()
+export const useAppDispatch = () => useDispatch<AppDispatchType>();
+
+export const goToURL = (url: any) =>  window.location.replace(url);

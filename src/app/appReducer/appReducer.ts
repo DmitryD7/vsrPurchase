@@ -15,7 +15,8 @@ const initializeApp = createAsyncThunk<undefined, undefined, ThunkError>('app/in
         if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             thunkAPI.dispatch(setIsLoggedIn({value: true}));
-            return res.data.email;
+            // const userData = {email: res.data.email, payment: res.data.email}
+            return res.data;
         } else {
             thunkAPI.dispatch(setIsLoggedIn({value: false}));
             return handleAsyncServerAppError(res.data, thunkAPI);
