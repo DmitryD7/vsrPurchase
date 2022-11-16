@@ -11,7 +11,7 @@ const login = createAsyncThunk<undefined, LoginParamsType, ThunkError>('auth/log
         const res = await authAPI.login(params);
         if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            return res.data.email;
+            return res.data;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }

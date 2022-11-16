@@ -20,10 +20,10 @@ export const authAPI = {
         return instance.get('delete');
     },
     changePassword(data: ChangePasswordDataType) {
-        return instance.post('reset_password', data);
+        return instance.post('reset-password', data);
     },
     requestPasswordReset(data: RequestPasswordResetType) {
-        return instance.post('reset_request', data);
+        return instance.post('reset-request', data);
     },
     refresh() {
         return instance.post('refresh');
@@ -40,11 +40,11 @@ export const vsrAPI = {
     buySeats(params: BuySeatsParamsType) {
         return instance.post<{ url: string }>('vsr/buy-seats', params);
     },
-    getSeats() {
-        return instance.post<GetSeatsResponseType>('vsr/get-seat');
-    },
     setSeat(data: SetSeatParamsType) {
         return instance.post<SetSeatResponseType>('vsr/set-seat', data);
+    },
+    getSeats() {
+        return instance.post<GetSeatsResponseType>('vsr/get-seats');
     },
     sendEmailToSeat(data: SendEmailToSeatParamsType) {
         return instance.post('vsr/email-seat', data);

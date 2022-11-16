@@ -28,8 +28,8 @@ function AccountPage() {
 
     useEffect(() => {
         dispatch(debug());
-        // dispatch(fetchSeats());
-    }, [dispatch, debug]);
+        dispatch(fetchSeats());
+    }, [dispatch, debug, fetchSeats]);
 
     const onLogoutHandler = async () => {
         const res = await dispatch(authActions.logout());
@@ -45,10 +45,7 @@ function AccountPage() {
         goToURL(billingUrl);
     };
 
-    const onSetSeatEmailClick = async (params: SetSeatParamsType) => {
-        const res = await dispatch(setSeat(params));
-        return res
-    };
+    const onSetSeatEmailClick = async (params: SetSeatParamsType) => await dispatch(setSeat(params));
 
     const onSendEmailToSeat = (params: SendEmailToSeatParamsType) => {
         dispatch(sendEmailToSeat(params));
@@ -81,6 +78,9 @@ function AccountPage() {
     }
     if (status === "loading") {
         return <Loader/>
+    }
+    if (seatsList.length < 0) {
+        return <Navigate to={'/purchase'}/>
     }
 
     return (

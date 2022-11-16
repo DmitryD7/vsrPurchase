@@ -12,36 +12,32 @@ import VerifyingEmailPage from "./pages/VerifyingEmailPage/VerifyingEmailPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import VSRPurchasePage from "./pages/VSRPurchasePage/VSRPurchasePage";
 import {useSelector} from "react-redux";
-import {accountActions, accSelectors} from "./app/accountReducer";
+import {accountActions} from "./app/accountReducer";
 import {selectIsLoggedIn} from "./app/authReducer";
 
 function App() {
     const dispatch = useAppDispatch();
     const {initializeApp} = appActions;
     const {fetchSeats} = accountActions;
-    const {selectSeats} = accSelectors;
     const isLoggedIn = useSelector(selectIsLoggedIn);
-    const seats = useSelector(selectSeats);
 
     useEffect(() => {
         dispatch(initializeApp());
         if (isLoggedIn){
             dispatch(fetchSeats())
         }
-    }, [dispatch, initializeApp, fetchSeats]);
+    }, [dispatch, initializeApp, fetchSeats, isLoggedIn]);
 
     // if (status === "loading") {
     //     return <Loader/>
     // }
-
-    const StartPage = () => seats.length > 0 ? <AccountPage/> : <VSRPurchasePage/>;
 
     return (
         <div className={s.Container}>
             <div className={s.App}>
                 <Header/>
                 <Routes>
-                    <Route path={'/'} element={<StartPage/>}/>
+                    <Route path={'/'} element={<StartPage isLoggedIn={isLoggedIn}/>}/>
                     <Route path={'account'} element={<AccountPage/>}/>
                     <Route path={'purchase'} element={<VSRPurchasePage/>}/>
                     <Route path={'success'} element={<SuccessPage/>}/>
@@ -53,6 +49,14 @@ function App() {
             </div>
         </div>
     );
+}
+
+const StartPage = (props: {isLoggedIn: boolean}) => {
+    if (!props.isLoggedIn) {
+        return <LoginPage/>
+    } else {
+        return <AccountPage/>
+    }
 }
 
 export default App;

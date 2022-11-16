@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI, vsrAPI, SetSeatParamsType, SendEmailToSeatParamsType, BuySeatsParamsType} from "../../api/api";
+import {authAPI, BuySeatsParamsType, SendEmailToSeatParamsType, SetSeatParamsType, vsrAPI} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
-import {seatsResponse} from "../../assets/seats";
 import {appActions} from "../appReducer";
+import {authActions} from "../authReducer";
 
 const {setAppStatus} = appCommonActions;
-const {initializeApp} = appActions
+const {initializeApp} = appActions;
+const {login} = authActions;
 
 const debug = createAsyncThunk('auth/debug', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
@@ -44,8 +45,7 @@ const fetchSeats = createAsyncThunk('account/fetchSeats', async (param, thunkAPI
         const res = await vsrAPI.getSeats();
         if (res.data.seats) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            console.log(res.data)
-            return res.data;
+            return res.data.seats;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
@@ -115,14 +115,14 @@ const getPayment = createAsyncThunk('account/payment', async (param, thunkAPI) =
     }
 });
 
-const {seats} = seatsResponse;
+// const {seats} = seatsResponse;
 
 export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         email: '',
         payment: false,
-        seats: seats,
+        seats: [],
     },
     reducers: {},
     extraReducers: builder => {
@@ -130,7 +130,7 @@ export const accountSlice = createSlice({
             state.email = action.payload;
         });
         builder.addCase(fetchSeats.fulfilled, (state, action) => {
-            state.seats = action.payload.vSeats;
+            state.seats = action.payload;
         });
         builder.addCase(setSeat.fulfilled, (state, action) => {
             const index = action.meta.arg.index
@@ -138,6 +138,12 @@ export const accountSlice = createSlice({
             state.seats[index].url = action.payload;
         });
         builder.addCase(initializeApp.fulfilled, (state, action) => {
+            if (action.payload) {
+                // @ts-ignore
+                state.payment = action.payload.payment;
+            }
+        });
+        builder.addCase(login.fulfilled, (state, action) => {
             if (action.payload) {
                 // @ts-ignore
                 state.payment = action.payload.payment;
