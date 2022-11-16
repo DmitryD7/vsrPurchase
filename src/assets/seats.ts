@@ -3,25 +3,21 @@ import {GetSeatsResponseType} from "../api/api";
 export const seatsResponse: GetSeatsResponseType = {
     seats: [
         {
-            sEmail: '1a@b.com',
-            sURL: 'https://1a@b.com',
+            email: '1a@b.com',
+            url: 'https://1a@b.com',
         },
         {
-            sEmail: '2b@c.com',
-            sURL: 'https://2b@c.com',
+            email: '2b@c.com',
+            url: 'https://2b@c.com',
         },
         {
-            sEmail: '3c@d.com',
-            sURL: 'https://3c@d.com',
+            email: '3c@d.com',
+            url: 'https://3c@d.com',
         },
         {
-            sEmail: '4d@e.com',
-            sURL: 'https://4d@e.com',
+            email: '4d@e.com',
+            url: 'https://4d@e.com',
         },
-        {
-            sEmail: '5e@f.com',
-            sURL: 'https://5e@f.com',
-        },
-
+        {},
     ],
 }

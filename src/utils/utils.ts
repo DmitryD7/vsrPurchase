@@ -13,6 +13,19 @@ export const emailValidate = (email: string) => {
     return emailErrors;
 }
 
+export const notRequiredEmailValidate = (email: string) => {
+    let emailErrors = '';
+
+    if (email.length === 0) {
+        emailErrors = ''
+    }
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+        emailErrors = 'Invalid email address';
+    }
+
+    return emailErrors;
+}
+
 export const passwordValidate = (password: string) => {
     let passwordError = '';
 
@@ -42,7 +55,7 @@ export const passwordConfirmValidate = (password: string, passwConfirm: string) 
 export const numberOfUsersValidate = (numberOfUsers: number) => {
     let numberOfUsersError = '';
 
-    if(!numberOfUsers) {
+    if (!numberOfUsers) {
         numberOfUsersError = 'Required field'
     } else if (numberOfUsers < 5) {
         numberOfUsersError = 'Min 5 users'

@@ -41,6 +41,7 @@ const setSeat = createAsyncThunk<undefined, SetSeatParamsType, ThunkError>('acco
     try {
         const res = await vsrAPI.setSeat(params);
         if (res.data) { // needs right condition
+            console.log(res.data)
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             return res.data;
         } else {

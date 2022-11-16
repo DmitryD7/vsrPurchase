@@ -1,10 +1,10 @@
-import s from "./NotFirstTimeAppearanceComponent.module.css";
+import s from "./OccupiedSeat.module.css";
 import React, {useState} from "react";
 import {SendEmailToSeatParamsType, SetSeatParamsType, UsersSeatType} from "../../api/api";
 import {useClipboard} from "use-clipboard-copy";
-import {FirstTimeAppearanceComponent} from "../FirstTimeAppearanceComponent/FirstTimeAppearanceComponent";
+import {ClearSeat} from "../ClearSeat/ClearSeat";
 
-export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceComponentPropsType) => {
+export const OccupiedSeat = (props: OccupiedSeatPropsType) => {
     const clipboard = useClipboard();
     const [isEditing, setIsEditing] = useState(false);
 
@@ -35,13 +35,13 @@ export const NotFirstTimeAppearanceComponent = (props: NotFirstTimeAppearanceCom
                         </div>
                     </div>
                 </section>
-                : <FirstTimeAppearanceComponent onSetSeatEmailClick={onSetSeatEmailClick} index={index} value={email}/>
+                : <ClearSeat onSetSeatEmailClick={onSetSeatEmailClick} index={index} value={email}/>
             }
         </>
     )
 }
 
-type NotFirstTimeAppearanceComponentPropsType = {
+type OccupiedSeatPropsType = {
     index: number
     seat: UsersSeatType
     onSendEmailToSeat: (params: SendEmailToSeatParamsType) => void

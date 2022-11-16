@@ -32,3 +32,8 @@
     cursor: pointer;
     background-color: #3b3b3b;
 }
+
+.Email_Error {
+    color: red;
+    position: absolute;
+}

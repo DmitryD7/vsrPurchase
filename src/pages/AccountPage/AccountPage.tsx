@@ -7,12 +7,9 @@ import {useSelector} from "react-redux";
 import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
 import {accountActions, accSelectors} from "../../app/accountReducer";
-import {
-    NotFirstTimeAppearanceComponent
-} from "../../components/NotFirstTimeAppearanceComponent/NotFirstTimeAppearanceComponent";
-import {FirstTimeAppearanceComponent} from "../../components/FirstTimeAppearanceComponent/FirstTimeAppearanceComponent";
-import {SendEmailToSeatParamsType, SetSeatParamsType, UsersSeatType} from "../../api/api";
+import {SendEmailToSeatParamsType, SetSeatParamsType} from "../../api/api";
 import {ExportToCsv} from "export-to-csv";
+import SeatsTable from "../../components/SeatsTable/SeatsTable";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
@@ -43,9 +40,9 @@ function AccountPage() {
         }
     }
 
-    const onSetSeatEmailClick = (params: SetSeatParamsType) => {
-        console.log(params)
-        dispatch(setSeat(params));
+    const onSetSeatEmailClick = async (params: SetSeatParamsType) => {
+        const res = await dispatch(setSeat(params));
+        return res
     };
 
     const onSendEmailToSeat = (params: SendEmailToSeatParamsType) => {
@@ -74,60 +71,6 @@ function AccountPage() {
         csvExporter.generateCsv(seatsList);
     };
 
-    // const renderFirstTime = () => inputsListForFirstTimeAppearance.map((num) => <FirstTimeAppearanceComponent
-    //     index={num}
-    //     key={num}
-    //     onSetSeatEmailClick={onSetSeatEmailClick}
-    // />);
-    //
-    // const renderNotFirstTime = () => seatsList.map((seat: UsersSeatType | {}, i) =>
-    //     <NotFirstTimeAppearanceComponent
-    //         key={seat.email}
-    //         index={i}
-    //         seat={seat}
-    //         onSendEmailToSeat={onSendEmailToSeat}
-    //         onSetSeatEmailClick={onSetSeatEmailClick}
-    //     />
-    // );
-
-    /*
-    ? <NotFirstTimeAppearanceComponent
-        key={seat.email}
-        index={i}
-        seat={seat}
-        onSendEmailToSeat={onSendEmailToSeat}
-        onSetSeatEmailClick={onSetSeatEmailClick}
-    />
-    : <FirstTimeAppearanceComponent
-        index={i}
-        key={i}
-        onSetSeatEmailClick={onSetSeatEmailClick}
-    />
-    */
-
-    // @ts-ignore
-    const render = () => seatsList.map((seat: UsersSeatType, i) => {
-        // @ts-ignore
-        return (
-            <>
-                {seat.hasOwnProperty('email')
-                    ? <NotFirstTimeAppearanceComponent
-                        key={seat.email}
-                        index={i + 1}
-                        seat={seat}
-                        onSendEmailToSeat={onSendEmailToSeat}
-                        onSetSeatEmailClick={onSetSeatEmailClick}
-                    />
-                    : <FirstTimeAppearanceComponent
-                        index={i + 1}
-                        key={i}
-                        onSetSeatEmailClick={onSetSeatEmailClick}
-                    />
-                }
-            </>
-        )
-    });
-
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
@@ -147,7 +90,10 @@ function AccountPage() {
                                 <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
                                 <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
                             </div>}
-                        {render()}
+                        <SeatsTable
+                            onSetSeatEmailClick={onSetSeatEmailClick}
+                            seatsList={seatsList}
+                            onSendEmailToSeat={onSendEmailToSeat}/>
                     </>
                 </div>
                 }
@@ -155,10 +101,7 @@ function AccountPage() {
                 <section className={s.AccountPage_Settings}>
                     <h3>Account settings</h3>
                     <button className={`${s.Btn} ${s.Btn_WithLink}`}>
-                        <a href="https://billing.stripe.com/p/login/test_7sI6rD4lT672bPGbII">Cancel plan</a>
-                    </button>
-                    <button className={`${s.Btn} ${s.Btn_WithLink}`}>
-                        <a href="https://billing.stripe.com/p/login/test_7sI6rD4lT672bPGbII">Stripe Manage</a>
+                        <a href="https://billing.stripe.com/p/login/test_7sI6rD4lT672bPGbII">Manage Payment</a>
                     </button>
                     <button onClick={onLogoutHandler} className={s.Btn}>Logout</button>
                 </section>
