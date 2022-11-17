@@ -6,12 +6,10 @@
 .pnp.js
 /.firebaserc
 /.idea
+.env
 
 # testing
 /coverage
-
-# env
-.env
 
 # production
 /build

@@ -1,4 +1,34 @@
 .SeatsTable {}
+
+.SeatsTable_Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 11px;
+}
+
+.SeatsTable_Header_Config {}
+
+.SeatsTable_Header_Config input {
+    width: fit-content;
+    padding: 9px 0;
+    text-align: center;
+}
+
+.Btn {
+    padding: 9px;
+    margin-top: 19px;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-size: 18px;
+}
+
+.Btn:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}
+
 .SeatsTable table {
     width: 100%;
 }
