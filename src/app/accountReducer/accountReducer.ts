@@ -1,5 +1,12 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI, BuySeatsParamsType, SendEmailToSeatParamsType, SetSeatParamsType, vsrAPI} from "../../api/api";
+import {
+    authAPI,
+    BuySeatsParamsType,
+    PaymentParamsType,
+    SendEmailToSeatParamsType,
+    SetSeatParamsType,
+    vsrAPI
+} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 import {appCommonActions} from "../applicationCommonActions";
 import {appActions} from "../appReducer";
@@ -101,10 +108,10 @@ const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('
     }
 });
 
-const getPayment = createAsyncThunk('account/payment', async (param, thunkAPI) => {
+const getPayment = createAsyncThunk<undefined, PaymentParamsType, ThunkError>('account/payment', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
-        const res = await authAPI.payment();
+        const res = await authAPI.payment(param);
         if (res.data.url) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
             return res.data.url;

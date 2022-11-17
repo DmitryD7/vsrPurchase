@@ -31,8 +31,8 @@ export const authAPI = {
     debug() {
         return instance.get('debug.json');
     },
-    payment() {
-        return instance.post<{url: string}>('payment');
+    payment(params: PaymentParamsType) {
+        return instance.post<{url: string}>('payment', params);
     },
 };
 
@@ -104,6 +104,10 @@ export type UsersSeatType = {
 
 export type GetSeatsResponseType = {
     seats: Array<UsersSeatType | {}>
+}
+
+export type PaymentParamsType = {
+    url?: string
 }
 
 export type SetSeatResponseType = {} | UsersSeatType

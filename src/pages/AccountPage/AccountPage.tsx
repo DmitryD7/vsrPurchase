@@ -41,7 +41,7 @@ function AccountPage() {
     };
 
     const onStripeManageHandler = async () => {
-        const res = await dispatch(getPayment());
+        const res = await dispatch(getPayment({url: 'https://vsrpurchase-test.web.app/'}));
         const billingUrl = res.payload;
         goToURL(billingUrl);
     };

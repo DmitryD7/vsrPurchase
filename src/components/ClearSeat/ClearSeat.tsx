@@ -34,7 +34,7 @@ export const ClearSeat = (props: FirstTimeAppearanceComponentPropsType) => {
                 <form onSubmit={formik.handleSubmit}>
                     <input
                         type="email"
-                        autoFocus
+                        // autoFocus
                         {...formik.getFieldProps('email')}
                     />
                     {formik.errors.email

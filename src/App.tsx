@@ -15,13 +15,18 @@ import {useSelector} from "react-redux";
 import {accountActions, accSelectors} from "./app/accountReducer";
 import {selectIsLoggedIn} from "./app/authReducer";
 import {useAlert} from "react-alert";
+import {Loader} from "./components/Loader/Loader";
+import {appCommonActions} from "./app/applicationCommonActions";
 
 function App() {
     const dispatch = useAppDispatch();
+    const {selectStatus, selectError} = appSelectors;
     const {initializeApp} = appActions;
-    const {fetchSeats} = accountActions;
+    const {fetchSeats,} = accountActions;
+    const {setAppError} = appCommonActions;
     const isLoggedIn = useSelector(selectIsLoggedIn);
-    const error = useSelector(appSelectors.selectError);
+    const error = useSelector(selectError);
+    const status = useSelector(selectStatus);
     const alert = useAlert();
 
     useEffect(() => {
@@ -29,21 +34,18 @@ function App() {
         isLoggedIn && dispatch(fetchSeats())
     }, [dispatch, initializeApp, fetchSeats, isLoggedIn]);
 
-    // if (status === "loading") {
-    //     return <Loader/>
-    // }
-
-    const showError = useCallback((error: any) => {
-        alert.error(error)
-    }, [alert])
-
+    const showError = useCallback((error: string | null) => {
+        alert.error(error);
+        dispatch(setAppError({error: null}))
+    }, [alert, dispatch, setAppError])
 
     return (
         <div className={s.Container}>
             <div className={s.App}>
                 <>
-                    {error && showError(error)}
+                    {isLoggedIn && error && showError(error)}
                     <Header/>
+                    {status === "loading" && <Loader/>}
                     <Routes>
                         <Route path={'/'} element={<StartPage isLoggedIn={isLoggedIn}/>}/>
                         <Route path={'account'} element={<AccountPage/>}/>
