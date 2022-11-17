@@ -18,6 +18,17 @@
     color: #0f0f0f;
 }
 
+.Header_Account_Btn {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font: inherit;
+}
+
+.Header_Account_Btn:hover {
+    cursor: pointer;
+}
+
 /*@media screen and (max-width: 1060px) {*/
 /*    .Header {*/
 /*        text-align: center;*/

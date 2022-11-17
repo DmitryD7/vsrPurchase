@@ -3,10 +3,18 @@ import s from './VSRPurchasePage.module.css';
 import {FormikHelpers, useFormik} from "formik";
 import {goToURL, numberOfUsersValidate, useAppDispatch} from "../../utils/utils";
 import {accountActions} from "../../app/accountReducer";
+import {Navigate} from "react-router-dom";
+import {Loader} from "../../components/Loader/Loader";
+import {appSelectors} from "../../app/appReducer";
+import {useSelector} from "react-redux";
+import {selectIsLoggedIn} from "../../app/authReducer";
 
 function VSRPurchasePage() {
     const dispatch = useAppDispatch();
     const {buySeats} = accountActions;
+    const {selectStatus} = appSelectors;
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const status = useSelector(selectStatus);
 
     const validate = (values: { numberOfUsers: number }) => {
         const errors: ErrorFormValuesType = {};
@@ -17,7 +25,7 @@ function VSRPurchasePage() {
 
     const formik = useFormik({
         initialValues: {
-            numberOfUsers: 0,
+            numberOfUsers: 5,
         },
         validate,
         onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
@@ -32,6 +40,13 @@ function VSRPurchasePage() {
             }
         },
     });
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
+    if (status === "loading") {
+        return <Loader/>
+    }
 
     return (
         <div className={s.LoginPage}>

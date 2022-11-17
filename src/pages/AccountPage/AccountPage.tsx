@@ -13,8 +13,8 @@ import {appSelectors} from "../../app/appReducer";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
-    const {selectStatus} = appSelectors;
 
+    const {selectStatus} = appSelectors;
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
 
@@ -23,7 +23,7 @@ function AccountPage() {
     const accEmail = useSelector(selectAccEmail);
     const payment = useSelector(selectPayment);
 
-    const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat, setSeat} = accountActions;
+    const {fetchSeats, sendEmailToAllSeats, sendEmailToSeat, setSeat, buySeats} = accountActions;
 
     const {debug, getPayment} = accountActions;
 
@@ -38,7 +38,7 @@ function AccountPage() {
             const error = res.payload.error;
             alert(error)
         }
-    }
+    };
 
     const onStripeManageHandler = async () => {
         const res = await dispatch(getPayment());
@@ -54,6 +54,14 @@ function AccountPage() {
 
     const onEmailAllClickHandler = () => {
         dispatch(sendEmailToAllSeats());
+    };
+
+    const onConfigureSeatsHandler = async (numberOfUsers: number = 5) => {
+        const res = await dispatch(buySeats({seats: numberOfUsers}));
+        if (!res.payload?.error) {
+            const billingPortal = res.payload;
+            goToURL(billingPortal)
+        }
     };
 
     const options = {
@@ -80,7 +88,7 @@ function AccountPage() {
     if (status === "loading") {
         return <Loader/>
     }
-    if (seatsList.length < 0) {
+    if (seatsList.length === 0) {
         return <Navigate to={'/purchase'}/>
     }
 
@@ -99,7 +107,9 @@ function AccountPage() {
                         <SeatsTable
                             onSetSeatEmailClick={onSetSeatEmailClick}
                             seatsList={seatsList}
-                            onSendEmailToSeat={onSendEmailToSeat}/>
+                            onSendEmailToSeat={onSendEmailToSeat}
+                            onConfigureSeatsHandler={onConfigureSeatsHandler}
+                        />
                     </>
                 </div>
                 }

@@ -12,7 +12,7 @@ import VerifyingEmailPage from "./pages/VerifyingEmailPage/VerifyingEmailPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import VSRPurchasePage from "./pages/VSRPurchasePage/VSRPurchasePage";
 import {useSelector} from "react-redux";
-import {accountActions} from "./app/accountReducer";
+import {accountActions, accSelectors} from "./app/accountReducer";
 import {selectIsLoggedIn} from "./app/authReducer";
 import {useAlert} from "react-alert";
 
@@ -25,10 +25,9 @@ function App() {
     const alert = useAlert();
 
     useEffect(() => {
+        console.log('APP UseEffect', isLoggedIn)
         dispatch(initializeApp());
-        if (isLoggedIn) {
-            dispatch(fetchSeats())
-        }
+        isLoggedIn && dispatch(fetchSeats())
     }, [dispatch, initializeApp, fetchSeats, isLoggedIn]);
 
     // if (status === "loading") {
@@ -39,6 +38,8 @@ function App() {
         alert.error(error)
         // console.log(1)
     }, [alert])
+
+    console.log('APP')
 
     return (
         <div className={s.Container}>
@@ -63,8 +64,14 @@ function App() {
 }
 
 const StartPage = (props: { isLoggedIn: boolean }) => {
+    const {selectSeats} = accSelectors;
+    const seatsList = useSelector(selectSeats);
+    console.log('Start pgae:  ', seatsList)
+
     if (!props.isLoggedIn) {
         return <LoginPage/>
+    } else if (seatsList.length === 0) {
+        return <VSRPurchasePage/>
     } else {
         return <AccountPage/>
     }
