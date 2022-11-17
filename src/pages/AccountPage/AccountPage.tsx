@@ -4,15 +4,16 @@ import {goToURL, useAppDispatch} from "../../utils/utils";
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
 import {Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
 import {accountActions, accSelectors} from "../../app/accountReducer";
 import {SendEmailToSeatParamsType, SetSeatParamsType} from "../../api/api";
 import {ExportToCsv} from "export-to-csv";
 import SeatsTable from "../../components/SeatsTable/SeatsTable";
+import {appSelectors} from "../../app/appReducer";
 
 function AccountPage() {
     const dispatch = useAppDispatch();
+    const {selectStatus} = appSelectors;
 
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);

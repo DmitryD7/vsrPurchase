@@ -6,12 +6,13 @@ import {emailValidate, passwordConfirmValidate, passwordValidate, useAppDispatch
 import {FormErrorType} from "../../app/types";
 import {authActions} from "../../app/authReducer";
 import {useSelector} from "react-redux";
-import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
+import {appSelectors} from "../../app/appReducer";
 
 function SignupPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const {selectStatus} = appSelectors;
     const status = useSelector(selectStatus);
 
     const validate = (values: FormValuesType) => {

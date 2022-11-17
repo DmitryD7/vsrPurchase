@@ -7,11 +7,12 @@ import {Link, Navigate} from 'react-router-dom';
 import {emailValidate, passwordValidate, useAppDispatch} from "../../utils/utils";
 import {LoginParamsType} from "../../api/api";
 import {FormErrorType} from "../../app/types";
-import {selectStatus} from "../../app/appReducer";
 import {Loader} from "../../components/Loader/Loader";
+import {appSelectors} from "../../app/appReducer";
 
 function LoginPage() {
     const isLoggedIn = useSelector(selectIsLoggedIn);
+    const {selectStatus} = appSelectors;
     const status = useSelector(selectStatus);
     const dispatch = useAppDispatch();
 
