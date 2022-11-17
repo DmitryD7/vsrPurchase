@@ -5,7 +5,7 @@ import {appCommonActions} from "../applicationCommonActions";
 import {appActions} from "../appReducer";
 import {authActions} from "../authReducer";
 
-const {setAppStatus} = appCommonActions;
+const {setAppStatus, setAppError} = appCommonActions;
 const {initializeApp} = appActions;
 const {login} = authActions;
 
@@ -15,6 +15,7 @@ const debug = createAsyncThunk('auth/debug', async (param, thunkAPI) => {
         const res = await authAPI.debug();
         if (res.data.account) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.account.email;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);

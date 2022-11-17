@@ -29,7 +29,7 @@ function VSRPurchasePage() {
         },
         validate,
         onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-            const res = await dispatch(buySeats({seats: values.numberOfUsers}));
+            const res = await dispatch(buySeats({seats: values.numberOfUsers, url: 'https://vsrpurchase-test.web.app/'}));
             if (!res.payload?.error) {
                 const billingPortal = res.payload;
                 goToURL(billingPortal)

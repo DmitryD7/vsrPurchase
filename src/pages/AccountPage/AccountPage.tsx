@@ -57,7 +57,7 @@ function AccountPage() {
     };
 
     const onConfigureSeatsHandler = async (numberOfUsers: number = 5) => {
-        const res = await dispatch(buySeats({seats: numberOfUsers}));
+        const res = await dispatch(buySeats({seats: numberOfUsers, url: 'https://vsrpurchase-test.web.app/'}));
         if (!res.payload?.error) {
             const billingPortal = res.payload;
             goToURL(billingPortal)

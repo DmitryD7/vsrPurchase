@@ -3,7 +3,7 @@ import {authAPI, LoginParamsType, RequestPasswordResetType, SignupParamsType,} f
 import {appCommonActions} from "../applicationCommonActions";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 
-const {setAppStatus} = appCommonActions
+const {setAppStatus, setAppError} = appCommonActions
 
 const login = createAsyncThunk<undefined, LoginParamsType, ThunkError>('auth/login', async (params, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
@@ -11,6 +11,7 @@ const login = createAsyncThunk<undefined, LoginParamsType, ThunkError>('auth/log
         const res = await authAPI.login(params);
         if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -26,6 +27,7 @@ const logout = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
         const res = await authAPI.logout();
         if (res.status === 200) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.ok;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -41,6 +43,7 @@ const signup = createAsyncThunk<undefined, SignupParamsType, ThunkError>('auth/s
         const res = await authAPI.signUp(params);
         if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.email;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -56,6 +59,7 @@ const requestResetPassword = createAsyncThunk<undefined, RequestPasswordResetTyp
         const res = await authAPI.requestPasswordReset(param);
         if (res.status === 200) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.ok;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
