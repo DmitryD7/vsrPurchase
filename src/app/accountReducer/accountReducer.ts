@@ -4,7 +4,7 @@ import {
     BuySeatsParamsType,
     PaymentParamsType,
     SendEmailToSeatParamsType,
-    SetSeatParamsType,
+    SetSeatParamsType, UsersSeatType,
     vsrAPI
 } from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
@@ -136,7 +136,7 @@ export const accountSlice = createSlice({
     initialState: {
         email: '',
         payment: false,
-        seats: [],
+        seats: [] as Array<UsersSeatType | {}>,
     },
     reducers: {},
     extraReducers: builder => {
@@ -152,16 +152,10 @@ export const accountSlice = createSlice({
             state.seats[index].url = action.payload;
         });
         builder.addCase(initializeApp.fulfilled, (state, action) => {
-            if (action.payload) {
-                // @ts-ignore
-                state.payment = action.payload.payment;
-            }
+            state.payment = action.payload.payment;
         });
         builder.addCase(login.fulfilled, (state, action) => {
-            if (action.payload) {
-                // @ts-ignore
-                state.payment = action.payload.payment;
-            }
+            state.payment = action.payload.payment;
         });
     },
 });
@@ -179,5 +173,5 @@ export const accountAsync = {
 export interface iUser {
     email: string,
     payment: boolean,
-    seats: [],
+    seats: Array<UsersSeatType>,
 }

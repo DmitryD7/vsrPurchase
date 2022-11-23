@@ -65,7 +65,6 @@ function AccountPage() {
     }, [dispatch, buySeats])
 
     const csvExporter = useMemo(() => {
-        console.log('csv')
         const options = {
             fieldSeparator: ',',
             filename: 'StyleScan-CSV',

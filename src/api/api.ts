@@ -11,7 +11,7 @@ export const authAPI = {
         return instance.post<SignupResponseType>('signup', data);
     },
     login(data: LoginParamsType) {
-        return instance.post('login', data);
+        return instance.post<LoginResponseType>('login', data);
     },
     logout() {
         return instance.get('logout');
@@ -26,7 +26,7 @@ export const authAPI = {
         return instance.post('reset-request', data);
     },
     refresh() {
-        return instance.post('refresh');
+        return instance.post<LoginResponseType>('refresh');
     },
     debug() {
         return instance.get('debug.json');
@@ -63,6 +63,7 @@ export type LoginResponseType = {
     email: string,		// account identifier
     payment: boolean,		// does user have a stripe account
     admin?: boolean,		// is user an administrator
+    error?: string
 }
 
 export type SignupParamsType = LoginParamsType & { redirect?: string }

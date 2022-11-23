@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {authAPI, LoginParamsType, RequestPasswordResetType, SignupParamsType,} from "../../api/api";
+import {authAPI, LoginParamsType, LoginResponseType, RequestPasswordResetType, SignupParamsType,} from "../../api/api";
 import {appCommonActions} from "../applicationCommonActions";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 
 const {setAppStatus, setAppError} = appCommonActions
 
-const login = createAsyncThunk<undefined, LoginParamsType, ThunkError>('auth/login', async (params, thunkAPI) => {
+const login = createAsyncThunk<LoginResponseType, LoginParamsType, ThunkError>('auth/login', async (params, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await authAPI.login(params);
@@ -75,8 +75,8 @@ export const authSlice = createSlice({
         isLoggedIn: false,
     },
     reducers: {
-        setIsLoggedIn(state, action: PayloadAction<{ value: boolean }>) {
-            state.isLoggedIn = action.payload.value;
+        setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+            state.isLoggedIn = action.payload.isLoggedIn;
         }
     },
     extraReducers: builder => {

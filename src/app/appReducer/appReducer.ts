@@ -2,24 +2,23 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {RequestStatusType} from "../types";
 import {authActions} from "../authReducer";
 import {appCommonActions} from "../applicationCommonActions";
-import {authAPI} from "../../api/api";
+import {authAPI, LoginResponseType} from "../../api/api";
 import {handleAsyncServerAppError, handleAsyncServerNetworkError, ThunkError} from "../../utils/errorUtils";
 
 const {setIsLoggedIn} = authActions;
 const {setAppStatus, setAppError} = appCommonActions;
 
-const initializeApp = createAsyncThunk<undefined, undefined, ThunkError>('app/initializeApp', async (params, thunkAPI) => {
+const initializeApp = createAsyncThunk<LoginResponseType, undefined, ThunkError>('app/initializeApp', async (params, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await authAPI.refresh();
         if (res.data.email) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            thunkAPI.dispatch(setIsLoggedIn({value: true}));
+            thunkAPI.dispatch(setIsLoggedIn({isLoggedIn: true}));
             thunkAPI.dispatch(setAppError({error: null}));
-            // const userData = {email: res.data.email, payment: res.data.email}
             return res.data;
         } else {
-            thunkAPI.dispatch(setIsLoggedIn({value: false}));
+            thunkAPI.dispatch(setIsLoggedIn({isLoggedIn: false}));
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
     } catch (error: unknown | any) {
