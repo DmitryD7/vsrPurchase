@@ -13,11 +13,9 @@ export const OccupiedSeat = (props: OccupiedSeatPropsType) => {
 
     const onEmailClickHandler = () => {
         onSendEmailToSeat({index});
-        console.log(`onEmailClick  seatIndex: ${index}, seatEmail: ${email}`);
     };
     const onCopyUrlClickHandler = () => {
         clipboard.copy(url)
-        console.log(`onCopyUrlClick seatIndex: ${index} sUrl: ${url}`);
     };
     const onEmailChangeHandler = () => {
         setIsEditing(true);

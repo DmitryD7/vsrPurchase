@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import s from './SeatsTable.module.css';
 import {ClearSeat} from "../ClearSeat/ClearSeat";
 import {SendEmailToSeatParamsType, SetSeatParamsType, UsersSeatType} from "../../api/api";
@@ -15,27 +15,15 @@ function SeatsTable(props: SeatsTablePropsType) {
         onConfigureSeatsHandler,
     } = props;
 
-    const [numberOfSeats, setNumberOfSeats] = useState(5);
-
-    const onNumberOfSeatChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNumberOfSeats(+e.target.value);
-    };
-
     const onConfigureSeatsClickHandler = () => {
-        onConfigureSeatsHandler(numberOfSeats);
+        onConfigureSeatsHandler(5);
     };
-
 
     return (
         <div className={s.SeatsTable}>
             <div className={s.SeatsTable_Header}>
                 <p>You have <b>{seatsList.length}</b> seats</p>
                 <div className={s.SeatsTable_Header_Config}>
-                    <input
-                        type="number"
-                        value={numberOfSeats}
-                        onChange={onNumberOfSeatChangeHandler}
-                    />
                     <button onClick={onConfigureSeatsClickHandler} className={s.Btn}>Configure Seats</button>
                 </div>
             </div>
@@ -69,7 +57,8 @@ function SeatsTable(props: SeatsTablePropsType) {
     );
 }
 
-export default SeatsTable;
+// export default SeatsTable;
+export const MemoizedSeatsTable = React.memo(SeatsTable);
 
 type SeatsTablePropsType = {
     seatsList: Array<UsersSeatType | {}>

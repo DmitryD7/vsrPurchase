@@ -2,17 +2,12 @@
 
 .SeatsTable_Header {
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
     margin-bottom: 11px;
 }
 
-.SeatsTable_Header_Config {}
-
-.SeatsTable_Header_Config input {
-    width: fit-content;
-    padding: 9px 0;
-    text-align: center;
+.SeatsTable_Header_Config {
+    margin-left: 17px;
 }
 
 .Btn {

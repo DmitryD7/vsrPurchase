@@ -34,7 +34,6 @@ export const ClearSeat = (props: FirstTimeAppearanceComponentPropsType) => {
                 <form onSubmit={formik.handleSubmit}>
                     <input
                         type="email"
-                        // autoFocus
                         {...formik.getFieldProps('email')}
                     />
                     {formik.errors.email
@@ -49,7 +48,6 @@ export const ClearSeat = (props: FirstTimeAppearanceComponentPropsType) => {
 
 type FirstTimeAppearanceComponentPropsType = {
     index: number
-    // onSetSeatEmailClick: (params: SetSeatParamsType) => Promise<any>
     onSetSeatEmailClick: (params: SetSeatParamsType) => any
     value?: string
 }

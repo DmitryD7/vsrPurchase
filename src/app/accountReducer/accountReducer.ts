@@ -38,6 +38,7 @@ const buySeats = createAsyncThunk<undefined, BuySeatsParamsType, ThunkError>('ac
         const res = await vsrAPI.buySeats(param);
         if (res.data.url) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.url;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -53,6 +54,7 @@ const fetchSeats = createAsyncThunk('account/fetchSeats', async (param, thunkAPI
         const res = await vsrAPI.getSeats();
         if (res.data.seats) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.seats;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -69,6 +71,7 @@ const setSeat = createAsyncThunk<undefined, SetSeatParamsType, ThunkError>('acco
         if (res.data) { // needs right condition
             console.log(res.data)
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -84,6 +87,7 @@ const sendEmailToSeat = createAsyncThunk<undefined, SendEmailToSeatParamsType, T
         const res = await vsrAPI.sendEmailToSeat(params);
         if (res.data.ok === true) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.ok;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
@@ -97,9 +101,10 @@ const sendEmailToAllSeats = createAsyncThunk<undefined, undefined, ThunkError>('
     thunkAPI.dispatch(setAppStatus({status: 'loading'}));
     try {
         const res = await vsrAPI.sendEmailToAllSeats();
-        if (res.data.ok === true) {
+        if (res.data.seats) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
-            return res.data.ok;
+            thunkAPI.dispatch(setAppError({error: null}));
+            return res.data.seats;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
         }
@@ -114,6 +119,7 @@ const getPayment = createAsyncThunk<undefined, PaymentParamsType, ThunkError>('a
         const res = await authAPI.payment(param);
         if (res.data.url) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}));
+            thunkAPI.dispatch(setAppError({error: null}));
             return res.data.url;
         } else {
             return handleAsyncServerAppError(res.data, thunkAPI);
