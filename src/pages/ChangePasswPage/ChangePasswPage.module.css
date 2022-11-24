@@ -1,0 +1,59 @@
+.ChangePasswPage {
+    position: relative;
+    text-align: center;
+    max-width: 927px;
+    margin: 2rem auto;
+}
+
+.ChangePasswPage_Header {
+    font-weight: 700;
+    margin-bottom: 39px;
+}
+
+.ChangePasswPage_NewAcc {
+    color: #9E9356;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.ChangePasswPage_Form {
+    width: 100%;
+    max-width: 723px;
+    margin: 0 auto;
+
+}
+
+.ChangePasswPage_Form_Element {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.ChangePasswPage_Form input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 18px;
+    border: 2px solid #BEBEBE;
+    padding: 15px 25px;
+    outline: none;
+}
+
+.ChangePasswPage_Form_Btn {
+    width: 100%;
+    padding: 19px 0;
+    margin-top: 19px;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-size: 18px;
+}
+
+.ChangePasswPage_Form_Btn:hover {
+    cursor: pointer;
+    background-color: #3b3b3b;
+}
+
+.ChangePasswPage_Form_Element_Error {
+    color: red;
+    position: absolute;
+}

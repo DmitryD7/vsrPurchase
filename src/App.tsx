@@ -17,6 +17,8 @@ import {selectIsLoggedIn} from "./app/authReducer";
 import {useAlert} from "react-alert";
 import {Loader} from "./components/Loader/Loader";
 import {appCommonActions} from "./app/applicationCommonActions";
+import ResetPasswPage from "./pages/ResetPasswPage/ResetPasswPage";
+import ChangePasswPage from "./pages/ChangePasswPage/ChangePasswPage";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -55,6 +57,8 @@ function App() {
                         <Route path={'login'} element={<LoginPage/>}/>
                         <Route path={'signup'} element={<SignupPage/>}/>
                         <Route path={'verify'} element={<VerifyingEmailPage/>}/>
+                        <Route path={'reset_request'} element={<ResetPasswPage/>}/>
+                        <Route path={'reset_password'} element={<ChangePasswPage/>}/>
                     </Routes>
                 </>
             </div>
