@@ -1,61 +1,60 @@
-.LoginPage {
+.VSRPurchasePage {
     position: relative;
     text-align: center;
-    max-width: 927px;
+    max-width: 576px;
     margin: 2rem auto;
 }
 
-.LoginPage_Header {
-    font-weight: 700;
+.VSRPurchasePage_Header {
+    font-weight: normal;
     margin-bottom: 15px;
 }
 
-.LoginPage_NewAcc {
+.VSRPurchasePage_Info {
     color: #9E9356;
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 25px;
 }
 
-.LoginPage_Form {
-    width: 100%;
-    max-width: 723px;
-    margin: 0 auto;
-
-}
-
-.LoginPage_Form_Element {
+.VSRPurchasePage_Form_Element {
     text-align: start;
     margin-bottom: 30px;
     position: relative;
 }
 
-.LoginPage_Form input {
+.VSRPurchasePage_Form_Element label {
+    margin-left: 9px;
+}
+
+.VSRPurchasePage_Form input {
     width: 100%;
     box-sizing: border-box;
     font-size: 18px;
     border: 2px solid #BEBEBE;
+    border-radius: 50px;
     padding: 15px 25px;
     outline: none;
     margin-top: 9px;
 }
 
-.LoginPage_Form_Btn {
+.VSRPurchasePage_Form_Btn {
     width: 100%;
     padding: 19px 0;
     margin-top: 19px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
     font-size: 18px;
 }
 
-.LoginPage_Form_Btn:hover {
+.VSRPurchasePage_Form_Btn:hover {
     cursor: pointer;
     background-color: #3b3b3b;
 }
 
-.LoginPage_ForgotPasswBtn > a {
+.VSRPurchasePage_Form_Btn > a {
     text-decoration: none;
     font-size: 15px;
     font-weight: 400;
@@ -64,7 +63,7 @@
     right: 0;
 }
 
-.LoginPage_Form_Element_Error {
+.VSRPurchasePage_Form_Element_Error {
     color: red;
     position: absolute;
 }

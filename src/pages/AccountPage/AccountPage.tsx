@@ -101,7 +101,7 @@ function AccountPage() {
                 {seatsList.length > 0
                     && <section className={s.AccountPage_ManageSection}>
                         <>
-                            <h3>Manage your seats</h3>
+                            <h3 className={s.AccountPage_ManageSection_header}>Manage your seats:</h3>
                             {seatsList.length > 0 &&
                                 <div className={s.NotFirstTime_Buttons}>
                                     <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
@@ -119,7 +119,7 @@ function AccountPage() {
                 }
 
                 <section className={s.AccountPage_Settings}>
-                    <h3>Account settings</h3>
+                    <h3 className={s.AccountPage_Settings_Header}>Account settings:</h3>
                     {payment &&
                         <button className={s.Btn} onClick={onStripeManageHandler}>
                             Manage Payment

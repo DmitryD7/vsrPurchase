@@ -3,6 +3,10 @@
     text-align: start;
 }
 
+.AccountPage_Header {}
+
+
+
 .AccountPage_Data {
     margin-top: 27px;
     display: flex;
@@ -12,8 +16,18 @@
 
 .AccountPage_Settings {}
 
+.AccountPage_Settings_Header {
+    font-size: 20px;
+    font-weight: normal;
+}
+
 .AccountPage_ManageSection {
     width: 49%;
+}
+
+.AccountPage_ManageSection_header {
+    font-size: 20px;
+    font-weight: normal;
 }
 
 .Btn {
@@ -21,6 +35,7 @@
     padding: 19px 0;
     margin-top: 19px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
     font-size: 18px;

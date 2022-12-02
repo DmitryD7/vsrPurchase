@@ -50,42 +50,42 @@ function SignupPage() {
     }
 
     return (
-        <div className={s.LoginPage}>
-            <h1 className={s.LoginPage_Header}>Signup</h1>
-            <Link to={'/login'} className={s.LoginPage_NewAcc}>Already have an account?</Link>
-            <div className={s.LoginPage_Form}>
+        <div className={s.SignupPage}>
+            <h1 className={s.SignupPage_Header}>Signup</h1>
+            <Link to={'/login'} className={s.SignupPage_NewAcc}>Already have an account?</Link>
+            <div className={s.SignupPage_Form}>
                 <form onSubmit={formik.handleSubmit}>
-                    <div className={s.LoginPage_Form_Element}>
+                    <div className={s.SignupPage_Form_Element}>
                         <input
                             type="email"
                             placeholder={'Email'}
                             {...formik.getFieldProps('email')}
                         />
                         {formik.errors.email ?
-                            <div className={s.LoginPage_Form_Element_Error}>{formik.errors.email}</div> : null}
+                            <div className={s.SignupPage_Form_Element_Error}>{formik.errors.email}</div> : null}
                     </div>
 
-                    <div className={s.LoginPage_Form_Element}>
+                    <div className={s.SignupPage_Form_Element}>
                         <input
                             type="password"
                             placeholder={'Password'}
                             {...formik.getFieldProps('password')}
                         />
                         {formik.errors.password ?
-                            <div className={s.LoginPage_Form_Element_Error}>{formik.errors.password}</div> : null}
+                            <div className={s.SignupPage_Form_Element_Error}>{formik.errors.password}</div> : null}
                     </div>
 
-                    <div className={s.LoginPage_Form_Element}>
+                    <div className={s.SignupPage_Form_Element}>
                         <input
                             type="password"
                             placeholder={'Confirm your password'}
                             {...formik.getFieldProps('passwordConfirmation')}
                         />
                         {formik.errors.passwordConfirmation ? <div
-                            className={s.LoginPage_Form_Element_Error}>{formik.errors.passwordConfirmation}</div> : null}
+                            className={s.SignupPage_Form_Element_Error}>{formik.errors.passwordConfirmation}</div> : null}
                     </div>
 
-                    <button className={s.LoginPage_Form_Btn} type={"submit"}>Signup</button>
+                    <button className={s.SignupPage_Form_Btn} type={"submit"}>Signup</button>
                 </form>
             </div>
         </div>

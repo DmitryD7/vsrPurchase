@@ -4,12 +4,20 @@
     margin: 2rem auto;
 }
 
+.VerifyingEmailPage_Header {
+    font-weight: normal;
+}
+
 .VerifyingEmailPage_Info {
     width: 100%;
     color: #9E9356;
     font-size: 18px;
-    margin-top: 27px;
-    margin-bottom: 70px;
+    margin-top: 69px;
+}
+
+.VerifyingEmailPage_Notice {
+    font-size: 14px;
+    margin-bottom: 69px;
 }
 
 .VerifyingEmailPage_Btn {
@@ -17,6 +25,7 @@
     padding: 19px 0;
     margin-top: 19px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
     font-size: 18px;

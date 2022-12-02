@@ -49,28 +49,28 @@ function VSRPurchasePage() {
     }
 
     return (
-        <div className={s.LoginPage}>
-            <h1 className={s.LoginPage_Header}>VSR Purchase Page</h1>
+        <div className={s.VSRPurchasePage}>
+            <h1 className={s.VSRPurchasePage_Header}>VSR Purchase Page</h1>
 
-            <section className={s.LoginPage_NewAcc}>
+            <section className={s.VSRPurchasePage_Info}>
                 <p>$99 per user</p>
                 <p>5 user minimum</p>
             </section>
 
-            <div className={s.LoginPage_Form}>
+            <div className={s.VSRPurchasePage_Form}>
                 <form onSubmit={formik.handleSubmit}>
-                    <div className={s.LoginPage_Form_Element}>
-                        <label htmlFor="numberOfUsers">Desired Number of Users: </label>
+                    <div className={s.VSRPurchasePage_Form_Element}>
+                        <label htmlFor="numberOfUsers">Number of Users: </label>
                         <input
                             type="number"
                             placeholder={'Number of users'}
                             {...formik.getFieldProps('numberOfUsers')}
                         />
                         {formik.errors.numberOfUsers ?
-                            <div className={s.LoginPage_Form_Element_Error}>{formik.errors.numberOfUsers}</div> : null}
+                            <div className={s.VSRPurchasePage_Form_Element_Error}>{formik.errors.numberOfUsers}</div> : null}
                     </div>
 
-                    <button className={s.LoginPage_Form_Btn} type={"submit"}>Subscribe</button>
+                    <button className={s.VSRPurchasePage_Form_Btn} type={"submit"}>Subscribe</button>
                 </form>
             </div>
         </div>

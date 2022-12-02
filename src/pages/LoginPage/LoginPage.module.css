@@ -1,27 +1,25 @@
 .LoginPage {
     position: relative;
     text-align: center;
-    max-width: 927px;
+    max-width: 576px;
     margin: 2rem auto;
 }
 
 .LoginPage_Header {
-    font-weight: 700;
-    margin-bottom: 15px;
+    font-weight: normal;
+    margin-bottom: 27px;
 }
 
 .LoginPage_NewAcc {
     color: #9E9356;
     font-size: 18px;
-    font-weight: 400;
-    margin-bottom: 25px;
+    font-weight: normal;
 }
 
 .LoginPage_Form {
     width: 100%;
     max-width: 723px;
-    margin: 0 auto;
-
+    margin: 19px auto;
 }
 
 .LoginPage_Form_Element {
@@ -34,6 +32,7 @@
     box-sizing: border-box;
     font-size: 18px;
     border: 2px solid #BEBEBE;
+    border-radius: 50px;
     padding: 15px 25px;
     outline: none;
 }
@@ -41,8 +40,9 @@
 .LoginPage_Form_Btn {
     width: 100%;
     padding: 19px 0;
-    margin-top: 19px;
+    margin-top: 21px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
     font-size: 18px;

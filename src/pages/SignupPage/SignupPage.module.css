@@ -1,59 +1,60 @@
-.LoginPage {
+.SignupPage {
     position: relative;
     text-align: center;
-    max-width: 927px;
+    max-width: 576px;
     margin: 2rem auto;
 }
 
-.LoginPage_Header {
-    font-weight: 700;
-    margin-bottom: 15px;
+.SignupPage_Header {
+    font-weight: normal;
+    margin-bottom: 27px;
 }
 
-.LoginPage_NewAcc {
+.SignupPage_NewAcc {
     color: #9E9356;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: normal;
     margin-bottom: 25px;
 }
 
-.LoginPage_Form {
+.SignupPage_Form {
     width: 100%;
     max-width: 723px;
-    margin: 0 auto;
-
+    margin: 19px auto;
 }
 
-.LoginPage_Form_Element {
+.SignupPage_Form_Element {
     margin-bottom: 30px;
     position: relative;
 }
 
-.LoginPage_Form input {
+.SignupPage_Form input {
     width: 100%;
     box-sizing: border-box;
     font-size: 18px;
     border: 2px solid #BEBEBE;
+    border-radius: 50px;
     padding: 15px 25px;
     outline: none;
 }
 
-.LoginPage_Form_Btn {
+.SignupPage_Form_Btn {
     width: 100%;
     padding: 19px 0;
-    margin-top: 19px;
+    margin-top: 21px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
     font-size: 18px;
 }
 
-.LoginPage_Form_Btn:hover {
+.SignupPage_Form_Btn:hover {
     cursor: pointer;
     background-color: #3b3b3b;
 }
 
-.LoginPage_Form_Element_Error {
+.SignupPage_Form_Element_Error {
     color: red;
     position: absolute;
 }
