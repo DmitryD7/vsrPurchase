@@ -35,7 +35,7 @@ function SignupPage() {
         validate,
         onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
             const {email, password} = values;
-            const res = await dispatch(authActions.signup({email, password}));
+            const res = await dispatch(authActions.signup({email, password, redirect: 'https://vsrpurchase-test.web.app/'}));
             if (res.payload?.error) {
                 const error = res.payload.error;
                 formikHelpers.setFieldError('email', error);
