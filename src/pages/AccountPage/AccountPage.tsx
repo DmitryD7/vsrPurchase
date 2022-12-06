@@ -96,36 +96,39 @@ function AccountPage() {
 
     return (
         <div className={s.AccountPage}>
-            <h1>Hello {accEmail}!</h1>
+            <h1 className={s.AccountPage_Header}>Hello, {accEmail}</h1>
             <div className={s.AccountPage_Data}>
                 {seatsList.length > 0
                     && <section className={s.AccountPage_ManageSection}>
                         <>
-                            <h3 className={s.AccountPage_ManageSection_header}>Manage your seats:</h3>
-                            {seatsList.length > 0 &&
-                                <div className={s.NotFirstTime_Buttons}>
-                                    <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
-                                    <button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>
-                                </div>
-                            }
                             <MemoizedSeatsTable
                                 onSetSeatEmailClick={onSetSeatEmailClick}
                                 seatsList={seatsList}
                                 onSendEmailToSeat={onSendEmailToSeat}
-                                onConfigureSeatsHandler={onConfigureSeatsHandler}
                             />
+                            {seatsList.length > 0 &&
+                                <div className={s.NotFirstTime_Buttons}>
+                                    <button className={s.Btn} onClick={onEmailAllClickHandler}>Email All</button>
+                                    {/*<button className={s.Btn} onClick={onDownloadCSVClickHandler}>Download CSV</button>*/}
+                                    <button className={s.Btn} onClick={() => onConfigureSeatsHandler()}>Configure
+                                        Seats
+                                    </button>
+                                </div>
+                            }
                         </>
                     </section>
                 }
 
                 <section className={s.AccountPage_Settings}>
-                    <h3 className={s.AccountPage_Settings_Header}>Account settings:</h3>
-                    {payment &&
-                        <button className={s.Btn} onClick={onStripeManageHandler}>
-                            Manage Payment
-                        </button>
-                    }
-                    <button onClick={onLogoutHandler} className={s.Btn}>Logout</button>
+                    <h3 className={s.AccountPage_Settings_Header}>Settings:</h3>
+                    <div className={s.AccountPage_Settings_Buttons}>
+                        {payment &&
+                            <button className={s.Btn} onClick={onStripeManageHandler}>
+                                Manage Payment
+                            </button>
+                        }
+                        <button onClick={onLogoutHandler} className={s.Btn}>Logout</button>
+                    </div>
                 </section>
             </div>
         </div>

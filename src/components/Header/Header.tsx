@@ -1,5 +1,5 @@
 import React from 'react';
-import styleScanLogo from '../../assets/styleScanIco.png'
+import styleScanLogo from '../../assets/Black.png'
 import s from './Header.module.css';
 import {authActions, selectIsLoggedIn} from "../../app/authReducer";
 import {Link} from "react-router-dom";

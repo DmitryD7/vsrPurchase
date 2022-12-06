@@ -1,13 +1,13 @@
 .SeatsTable {}
 
-.SeatsTable_Header {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 11px;
+.SeatsTable_Header p{
+    margin-top: 0;
+    margin-bottom: 17px;
 }
 
-.SeatsTable_Header_Config {
-    margin-left: 17px;
+.SeatsTable_Table {
+    padding: 0;
+    border-spacing: 0;
 }
 
 .Btn {
@@ -23,8 +23,4 @@
 .Btn:hover {
     cursor: pointer;
     background-color: #3b3b3b;
-}
-
-.SeatsTable table {
-    width: 100%;
 }

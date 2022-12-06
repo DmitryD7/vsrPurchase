@@ -3,12 +3,13 @@
     text-align: start;
 }
 
-.AccountPage_Header {}
-
-
+.AccountPage_Header {
+    font-size: 50px;
+    margin: 0;
+}
 
 .AccountPage_Data {
-    margin-top: 27px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -19,6 +20,8 @@
 .AccountPage_Settings_Header {
     font-size: 20px;
     font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 17px;
 }
 
 .AccountPage_ManageSection {
@@ -31,14 +34,13 @@
 }
 
 .Btn {
-    width: 100%;
-    padding: 19px 0;
-    margin-top: 19px;
+    width: 245px;
+    height: 50px;
     border: none;
     border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .Btn:hover {
@@ -47,12 +49,23 @@
 }
 
 .NotFirstTime_Buttons {
+    max-width: 502px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 27px;
+    margin-top: 9px;
+    flex-wrap: wrap;
 }
 
-.NotFirstTime_Buttons button {
-    width: 150px;
+.AccountPage_Settings_Header {
     font-size: 16px;
+    text-align: end;
+}
+
+.AccountPage_Settings_Buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.AccountPage_Settings_Buttons button {
+    margin-bottom: 10px;
 }

@@ -30,8 +30,8 @@ export const ClearSeat = (props: FirstTimeAppearanceComponentPropsType) => {
 
     return (
         <section>
-            <div className={s.FirstTimeAppearanceComponent}>
-                <form onSubmit={formik.handleSubmit}>
+            <div className={s.ClearSeat}>
+                <form onSubmit={formik.handleSubmit} className={s.ClearSeat_Form}>
                     <input
                         type="email"
                         {...formik.getFieldProps('email')}

@@ -1,32 +1,29 @@
-.FirstTimeAppearanceComponent {
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+.ClearSeat {
+    margin-bottom: 21px;
     position: relative;
 }
 
-.FirstTimeAppearanceComponent input {
-    /*max-width: 200px;*/
-    height: 48px;
-    width: 51%;
+.ClearSeat_Form {
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
 
-.FirstTimeAppearanceComponent button {
-    width: 130px;
-    font-size: 14px;
-    box-sizing: border-box;
-
+.ClearSeat input {
+    width: 332px;
+    height: 34px;
+    border-radius: 50px;
+    margin-right: 10px;
 }
 
 .Btn {
-    width: 100%;
-    padding: 19px 0;
-    margin-top: 19px;
+    width: 150px;
+    height: 40px;
     border: none;
+    border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .Btn:hover {
@@ -37,4 +34,6 @@
 .Email_Error {
     color: red;
     position: absolute;
+    font-size: 14px;
+    top: 39px
 }
