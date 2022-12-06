@@ -50,7 +50,7 @@ function VSRPurchasePage() {
 
     return (
         <div className={s.VSRPurchasePage}>
-            <h1 className={s.VSRPurchasePage_Header}>Virtual Styling Studio Subscription</h1>
+            <h1 className={s.VSRPurchasePage_Header}>Virtual Styling Studio</h1>
 
             <section className={s.VSRPurchasePage_Info}>
                 <p>$99 per user</p>

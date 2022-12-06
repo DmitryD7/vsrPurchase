@@ -1,35 +1,39 @@
-.VerifyingEmailPage{
+.VerifyingEmailPage {
     text-align: center;
     max-width: 927px;
-    margin: 2rem auto;
+    margin: 7rem auto;
 }
 
 .VerifyingEmailPage_Header {
-    font-weight: normal;
+    font-size: 48px;
+    font-weight: 400;
+    margin-bottom: 60px;
 }
 
 .VerifyingEmailPage_Info {
-    width: 100%;
     color: #9E9356;
-    font-size: 18px;
-    margin-top: 69px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 14px;
 }
 
 .VerifyingEmailPage_Notice {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 69px;
+    color: #BCBCBC;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 67px;
 }
 
 .VerifyingEmailPage_Btn {
-    width: 70%;
+    width: 100%;
+    max-width: 448px;
     padding: 19px 0;
     margin-top: 19px;
     border: none;
     border-radius: 50px;
     background-color: #0f0f0f;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .VerifyingEmailPage_Btn:hover {
